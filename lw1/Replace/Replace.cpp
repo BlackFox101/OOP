@@ -1,4 +1,4 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <fstream>
 #include <optional>
 #include <string>
@@ -33,7 +33,7 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 string replaceString(string& line, string& search, string& replace)
 {
     string str = "";
-    size_t pos = 0; // Целочисленный тип без знака, первое вхождение подстроки
+    size_t pos = 0; // Р¦РµР»РѕС‡РёСЃР»РµРЅРЅС‹Р№ С‚РёРї Р±РµР· Р·РЅР°РєР°, РїРµСЂРІРѕРµ РІС…РѕР¶РґРµРЅРёРµ РїРѕРґСЃС‚СЂРѕРєРё
     while (pos < line.length())
     {
         size_t foundPos = line.find(search, pos);
@@ -55,13 +55,13 @@ string replaceString(string& line, string& search, string& replace)
 int main(int argc, char* argv[])
 {
     auto args = ParseArgs(argc, argv);
-    // Проверка правильности аргументов командной строки
+    // РџСЂРѕРІРµСЂРєР° РїСЂР°РІРёР»СЊРЅРѕСЃС‚Рё Р°СЂРіСѓРјРµРЅС‚РѕРІ РєРѕРјР°РЅРґРЅРѕР№ СЃС‚СЂРѕРєРё
     if (!args)
     {
         return 1;
     }
 
-    // Открываем входной файл
+    // РћС‚РєСЂС‹РІР°РµРј РІС…РѕРґРЅРѕР№ С„Р°Р№Р»
     ifstream input;
     input.open(args->inputFileName);
     if (!input.is_open())
@@ -69,7 +69,7 @@ int main(int argc, char* argv[])
         std::cout << "Failed to open '" << args->inputFileName << "' for reading\n";
         return 1;
     }
-    // Открваем входной файл
+    // РћС‚РєСЂРІР°РµРј РІС…РѕРґРЅРѕР№ С„Р°Р№Р»
     ofstream output;
     output.open(args->outputFileName);
     if (!output.is_open())
