@@ -20,15 +20,15 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="test.bat">
-      <Filter>Source Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <Text Include="ReplaceText.txt" />
     <Text Include="Text.txt" />
     <Text Include="Empty.txt" />
     <Text Include="multy.txt" />
     <Text Include="multyOutput.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="test.bat">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
