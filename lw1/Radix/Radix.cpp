@@ -1,20 +1,41 @@
-// Radix.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
+#include <fstream>
+#include <optional>
+#include <string>
 
-int main()
+using namespace std;
+
+struct Args
 {
-    std::cout << "Hello World!\n";
+    string sourceNotation;
+    string destinationNotation;
+    string value;
+};
+
+std::optional<Args> ParseArgs(int argc, char* argv[])
+{
+    if (argc != 4)
+    {
+        cout << "Invalid arguments count\n";
+        cout << "Usage Radix.exe <source notation> <destination notation> <value>\n";
+        return std::nullopt;
+    }
+    Args args;
+    args.sourceNotation = argv[1];
+    args.destinationNotation = argv[2];
+    args.value = argv[3];
+
+    return args;
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+int main(int argc, char* argv[])
+{
+    auto args = ParseArgs(argc, argv);
+    // Проверка правильности аргументов командной строки
+    if (!args)
+    {
+        return 1;
+    }
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+    return 0;
+}

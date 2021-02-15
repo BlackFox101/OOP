@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{6796a214-070a-42ce-86d7-fe31562d7a90}</ProjectGuid>
-    <RootNamespace>Radix</RootNamespace>
+    <ProjectGuid>{7dad23fe-facb-45d9-b712-2356769f9d79}</ProjectGuid>
+    <RootNamespace>Invert</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -155,7 +155,15 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Radix.cpp" />
+    <ClCompile Include="Invert.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="test.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Empty.txt" />
+    <Text Include="matrix.txt" />
+    <Text Include="mat.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

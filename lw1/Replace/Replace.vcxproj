@@ -161,6 +161,7 @@
     <Text Include="Empty.txt" />
     <Text Include="multy.txt" />
     <Text Include="multyOutput.txt" />
+    <Text Include="output.txt" />
     <Text Include="Text.txt" />
     <Text Include="ReplaceText.txt" />
   </ItemGroup>

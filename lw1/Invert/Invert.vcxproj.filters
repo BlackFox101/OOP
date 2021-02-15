@@ -15,21 +15,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Replace.cpp">
+    <ClCompile Include="Invert.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="ReplaceText.txt" />
-    <Text Include="Text.txt" />
-    <Text Include="Empty.txt" />
-    <Text Include="multy.txt" />
-    <Text Include="multyOutput.txt" />
-    <Text Include="output.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="test.bat">
       <Filter>Source Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Empty.txt" />
+    <Text Include="matrix.txt" />
+    <Text Include="mat.txt" />
   </ItemGroup>
 </Project>
