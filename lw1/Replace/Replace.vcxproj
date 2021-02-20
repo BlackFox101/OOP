@@ -161,9 +161,11 @@
     <Text Include="Empty.txt" />
     <Text Include="multy.txt" />
     <Text Include="multyOutput.txt" />
-    <Text Include="output.txt" />
     <Text Include="Text.txt" />
-    <Text Include="ReplaceText.txt" />
+    <Text Include="TextOutput.txt" />
+    <Text Include="TextSeveralStrings.txt" />
+    <Text Include="TextSeveralStringsOutput.txt" />
+    <Text Include="UpperCase.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="test.bat" />

@@ -29,11 +29,11 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 
     return args;
 }
-
-string replaceString(string& line, string& search, string& replace)
+// TODO: Разобарться с константыми ссылками при передаче параметров 
+string replaceString(const string& line, const string& search, const string& replace)
 {
     string str = "";
-    size_t pos = 0; // Целочисленный тип без знака, первое вхождение подстроки
+    size_t pos = 0; // Целочисленный тип без знака
     while (pos < line.length())
     {
         size_t foundPos = line.find(search, pos);
@@ -46,7 +46,7 @@ string replaceString(string& line, string& search, string& replace)
         {
             str = str + line.substr(pos, foundPos - pos);
             str = str + replace;
-            pos = pos + foundPos + search.length();
+            pos = foundPos + search.length();
         }
     }
     return str;
@@ -78,15 +78,18 @@ int main(int argc, char* argv[])
         return 1;
     }
 
+
+    // Получаем строку и изменяет ее, если будет найдена нужная подстрока
     string line;
     while (getline(input, line))
     {
         output << replaceString(line, args->search, args->replace) << endl;
     }
 
+
     if (input.bad())
     {
-        std::cout << "Failed to read data from input file\n";
+        cout << "Failed to read data from input file\n";
         return 1;
     }
 

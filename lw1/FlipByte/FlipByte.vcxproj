@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{7dad23fe-facb-45d9-b712-2356769f9d79}</ProjectGuid>
-    <RootNamespace>Invert</RootNamespace>
+    <ProjectGuid>{796fc0fd-2fa0-4f08-838f-17271e8f916c}</ProjectGuid>
+    <RootNamespace>FlipByte</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -155,24 +155,10 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Invert.cpp" />
+    <ClCompile Include="FlipByte.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="test.bat" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="EmptyFile.txt" />
-    <Text Include="ZeroDeterminant.txt" />
-    <Text Include="FloatMatrix.txt" />
-    <Text Include="FloatMatrixOut.txt" />
-    <Text Include="IncompleteMatrix.txt" />
-    <Text Include="IntMatrix.txt" />
-    <Text Include="IntMatrixOut.txt" />
-    <Text Include="NotCompleteMatrix.txt" />
-    <Text Include="NotNumber.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Invert.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

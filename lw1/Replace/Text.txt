@@ -1,4 +1,1 @@
-hello cat, dog, monkeys.
-cat
-dog dog dog
-cat Cat
+hello cat, cat, dog, monkeys.

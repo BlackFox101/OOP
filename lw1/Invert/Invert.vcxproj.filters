@@ -25,8 +25,19 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Empty.txt" />
-    <Text Include="matrix.txt" />
-    <Text Include="mat.txt" />
+    <Text Include="NotCompleteMatrix.txt" />
+    <Text Include="IntMatrix.txt" />
+    <Text Include="IntMatrixOut.txt" />
+    <Text Include="FloatMatrix.txt" />
+    <Text Include="FloatMatrixOut.txt" />
+    <Text Include="IncompleteMatrix.txt" />
+    <Text Include="NotNumber.txt" />
+    <Text Include="ZeroDeterminant.txt" />
+    <Text Include="EmptyFile.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Invert.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

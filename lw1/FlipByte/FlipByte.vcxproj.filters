@@ -15,19 +15,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Replace.cpp">
+    <ClCompile Include="FlipByte.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Empty.txt" />
-    <Text Include="multy.txt" />
-    <Text Include="multyOutput.txt" />
-    <Text Include="TextSeveralStrings.txt" />
-    <Text Include="UpperCase.txt" />
-    <Text Include="TextSeveralStringsOutput.txt" />
-    <Text Include="Text.txt" />
-    <Text Include="TextOutput.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="test.bat">

@@ -9,13 +9,30 @@ if %MyProgram%=="" goto err
 echo Test 1 passed
 
 :: Проверка на пустой файл
-%MyProgram% Empty.txt && goto testFailed
+%MyProgram% EmptyFile.txt && goto testFailed
 echo Test 2 passed
 
-:: Проверка замены слова
-%MyProgram% matrix.txt > "%TEMP%\output.txt" || goto testFailed
-fc "%~dp0mat.txt" "%TEMP%\output.txt" > nul || goto testFailed
+:: Проверка на обратную матрицу c int значениями
+%MyProgram% IntMatrix.txt > "%TEMP%\output.txt" || goto testFailed
+fc "%~dp0IntMatrixOut.txt" "%TEMP%\output.txt" > nul || goto testFailed
 echo Test 3 passed
+
+:: Проверка на обратную матрицу с float значениями
+%MyProgram% FloatMatrix.txt > "%TEMP%\output.txt" || goto testFailed
+fc "%~dp0FloatMatrixOut.txt" "%TEMP%\output.txt" > nul || goto testFailed
+echo Test 4 passed
+
+:: Проверка на неполную матрицу
+%MyProgram% IncompleteMatrix.txt && goto testFailed
+echo Test 5 passed
+
+:: Проверка на элемент матрицы - не число
+%MyProgram% NotNumber.txt && goto testFailed
+echo Test 6 passed
+
+:: Проверка матрицы у которой определитель равен 0
+%MyProgram% ZeroDeterminant.txt && goto testFailed
+echo Test 7 passed
 
 
 :: Тесты прошли успешно
