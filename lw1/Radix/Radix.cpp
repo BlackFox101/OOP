@@ -1,4 +1,4 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <fstream>
 #include <optional>
 #include <string>
@@ -33,7 +33,7 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 
 const string CHARACTERS = "0123456789ABCDEFGHIJKLMNOPQRSRUVWXYZ";
 
-// Перевод строки в число
+// РџРµСЂРµРІРѕРґ СЃС‚СЂРѕРєРё РІ С‡РёСЃР»Рѕ
 void StringToInt(const string& str, int& radix, bool& wasError)
 {
     size_t pos;
@@ -44,7 +44,7 @@ void StringToInt(const string& str, int& radix, bool& wasError)
     }
 }
 
-// Возведение в степень
+// Р’РѕР·РІРµРґРµРЅРёРµ РІ СЃС‚РµРїРµРЅСЊ
 int RaiseDegree(const int& number, const int& degree)
 {
     int degreeNumber = 1;
@@ -56,7 +56,7 @@ int RaiseDegree(const int& number, const int& degree)
     return degreeNumber;
 }
 
-// Перевод в десятичную систему счисления
+// РџРµСЂРµРІРѕРґ РІ РґРµСЃСЏС‚РёС‡РЅСѓСЋ СЃРёСЃС‚РµРјСѓ СЃС‡РёСЃР»РµРЅРёСЏ
 void ConvertToDecimalNotation(std::string& value, int& decimalNumber, int& sourceNotation)
 {
     int step = 0;
@@ -80,7 +80,7 @@ void CalculationNumber(int& tempNumber, int destinationNotation, std::string& de
     destinationNotationNumber += CHARACTERS[abs(remains)];
 }
 
-// Перевод из десятичной системы в нужную
+// РџРµСЂРµРІРѕРґ РёР· РґРµСЃСЏС‚РёС‡РЅРѕР№ СЃРёСЃС‚РµРјС‹ РІ РЅСѓР¶РЅСѓСЋ
 void ConvertToDestinationNotation(int& tempNumber, int destinationNotation, std::string& destinationNotationNumber)
 {
     if (tempNumber > 0)
@@ -99,7 +99,7 @@ void ConvertToDestinationNotation(int& tempNumber, int destinationNotation, std:
     }
 }
 
-// Вывести число
+// Р’С‹РІРµСЃС‚Рё С‡РёСЃР»Рѕ
 void OutputNumber(std::string& destinationNotationNumber)
 {
     for (int i = destinationNotationNumber.length() - 1; i >= 0; --i)
@@ -112,17 +112,17 @@ void OutputNumber(std::string& destinationNotationNumber)
 int main(int argc, char* argv[])
 {
     auto args = ParseArgs(argc, argv);
-    // Проверка правильности аргументов командной строки
+    // РџСЂРѕРІРµСЂРєР° РїСЂР°РІРёР»СЊРЅРѕСЃС‚Рё Р°СЂРіСѓРјРµРЅС‚РѕРІ РєРѕРјР°РЅРґРЅРѕР№ СЃС‚СЂРѕРєРё
     if (!args)
     {
         return 1;
     }
 
-    int sourceNotation = 0; // Начальная система счисления
-    int destinationNotation = 0; // В какую перевести
+    int sourceNotation = 0; // РќР°С‡Р°Р»СЊРЅР°СЏ СЃРёСЃС‚РµРјР° СЃС‡РёСЃР»РµРЅРёСЏ
+    int destinationNotation = 0; // Р’ РєР°РєСѓСЋ РїРµСЂРµРІРµСЃС‚Рё
     bool wasError = false;
 
-    // Перевод начальной системы счисления из строки в число
+    // РџРµСЂРµРІРѕРґ РЅР°С‡Р°Р»СЊРЅРѕР№ СЃРёСЃС‚РµРјС‹ СЃС‡РёСЃР»РµРЅРёСЏ РёР· СЃС‚СЂРѕРєРё РІ С‡РёСЃР»Рѕ
     StringToInt(args->sourceNotation, sourceNotation, wasError);
     if (wasError)
     {
@@ -130,7 +130,7 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    // Перевод следующей системы счисления из строки в число
+    // РџРµСЂРµРІРѕРґ СЃР»РµРґСѓСЋС‰РµР№ СЃРёСЃС‚РµРјС‹ СЃС‡РёСЃР»РµРЅРёСЏ РёР· СЃС‚СЂРѕРєРё РІ С‡РёСЃР»Рѕ
     StringToInt(args->destinationNotation, destinationNotation, wasError);
     if (wasError)
     {
@@ -138,14 +138,14 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    //Проверка если передана не верная система счисления
+    //РџСЂРѕРІРµСЂРєР° РµСЃР»Рё РїРµСЂРµРґР°РЅР° РЅРµ РІРµСЂРЅР°СЏ СЃРёСЃС‚РµРјР° СЃС‡РёСЃР»РµРЅРёСЏ
     if (!(2 <= sourceNotation && sourceNotation <= 36) || !(2 <= destinationNotation && destinationNotation <= 36))
     {
         cout << "One of the number systems does not exist\n";
         return 1;
     }
 
-    // Множество из символов начальной системы счисления
+    // РњРЅРѕР¶РµСЃС‚РІРѕ РёР· СЃРёРјРІРѕР»РѕРІ РЅР°С‡Р°Р»СЊРЅРѕР№ СЃРёСЃС‚РµРјС‹ СЃС‡РёСЃР»РµРЅРёСЏ
     set<char> charactersInSourceSystem = {'-'};
     for (int i = 0; i < sourceNotation; i++)
     {
@@ -153,7 +153,7 @@ int main(int argc, char* argv[])
     }
 
     string value = args->value;
-    // Проверка переданное число соотвествует начальной системе счисления
+    // РџСЂРѕРІРµСЂРєР° РїРµСЂРµРґР°РЅРЅРѕРµ С‡РёСЃР»Рѕ СЃРѕРѕС‚РІРµСЃС‚РІСѓРµС‚ РЅР°С‡Р°Р»СЊРЅРѕР№ СЃРёСЃС‚РµРјРµ СЃС‡РёСЃР»РµРЅРёСЏ
     for (auto i : value)
     {
         if (charactersInSourceSystem.find(i) == charactersInSourceSystem.end())
@@ -163,14 +163,14 @@ int main(int argc, char* argv[])
         }
     }
 
-    // Если нужная система совпадает с начальной
+    // Р•СЃР»Рё РЅСѓР¶РЅР°СЏ СЃРёСЃС‚РµРјР° СЃРѕРІРїР°РґР°РµС‚ СЃ РЅР°С‡Р°Р»СЊРЅРѕР№
     if (sourceNotation == destinationNotation)
     {
         cout << value << endl;
         return 0;
     }
 
-    // Перевод в десятичную
+    // РџРµСЂРµРІРѕРґ РІ РґРµСЃСЏС‚РёС‡РЅСѓСЋ
     int decimalNumber = 0;
     if (sourceNotation != 10)
     {
@@ -181,21 +181,21 @@ int main(int argc, char* argv[])
         StringToInt(value, decimalNumber, wasError);
     }
 
-    // Если нужна десятичная
+    // Р•СЃР»Рё РЅСѓР¶РЅР° РґРµСЃСЏС‚РёС‡РЅР°СЏ
     if (destinationNotation == 10)
     {
         cout << decimalNumber << endl;
         return 0;
     }
 
-    // Множество из символов нужной системы счисления
+    // РњРЅРѕР¶РµСЃС‚РІРѕ РёР· СЃРёРјРІРѕР»РѕРІ РЅСѓР¶РЅРѕР№ СЃРёСЃС‚РµРјС‹ СЃС‡РёСЃР»РµРЅРёСЏ
     set<char> charactersInDestinationSystem;
     for (int i = 0; i < destinationNotation; i++)
     {
         charactersInDestinationSystem.insert(CHARACTERS[i]);
     }
 
-    // Перевод из десятичной системы в нужную
+    // РџРµСЂРµРІРѕРґ РёР· РґРµСЃСЏС‚РёС‡РЅРѕР№ СЃРёСЃС‚РµРјС‹ РІ РЅСѓР¶РЅСѓСЋ
     int tempNumber = decimalNumber;
     string destinationNotationNumber = "";
     ConvertToDestinationNotation(tempNumber, destinationNotation, destinationNotationNumber);
@@ -208,7 +208,7 @@ int main(int argc, char* argv[])
     {
         destinationNotationNumber += CHARACTERS[tempNumber];
     }
-    // Вывести число
+    // Р’С‹РІРµСЃС‚Рё С‡РёСЃР»Рѕ
     OutputNumber(destinationNotationNumber);
 
     return 0;
