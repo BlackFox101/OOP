@@ -28,8 +28,25 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
     return args;
 }
 
+void OutputMatrix(float matrix[3][3])
+{
+    for (int i = 0; i < MAX_LENGTH; i++)
+    {
+        for (int j = 0; j < MAX_LENGTH; j++)
+        {
+            cout << round(matrix[i][j] * 1000) / 1000;
+            if (j != 2)
+            {
+                cout << "\t";
+            }
+        }
+        cout << "\n";
+    }
+}
+
 float FindDeterminant(float  matrix[3][3])
 {
+    // Находим определительм матрицы
     float determinant = matrix[0][0] * matrix[1][1] * matrix[2][2] - matrix[0][0] * matrix[1][2] * matrix[2][1]
                       - matrix[0][1] * matrix[1][0] * matrix[2][2] + matrix[0][1] * matrix[1][2] * matrix[2][0]
                       + matrix[0][2] * matrix[1][0] * matrix[2][1] - matrix[0][2] * matrix[1][1] * matrix[2][0];
@@ -39,6 +56,7 @@ float FindDeterminant(float  matrix[3][3])
 
 void TransposeAndCalcMinor(float inverseMatrix[3][3], float matrix[3][3], const float determinant)
 {
+    // Высчитываем миноры и высчитываем обратную матрицу
     inverseMatrix[0][0] = (matrix[1][1] * matrix[2][2] - matrix[2][1] * matrix[1][2]) / determinant;
     inverseMatrix[1][0] = (matrix[1][2] * matrix[2][0] - matrix[1][0] * matrix[2][2]) / determinant;
     inverseMatrix[2][0] = (matrix[1][0] * matrix[2][1] - matrix[2][0] * matrix[1][1]) / determinant;
@@ -58,18 +76,7 @@ void FindInverseMatrix(float  matrix[3][3], const float& determinant)
     TransposeAndCalcMinor(inverseMatrix, matrix, determinant);
 
     // Вывод обратной матрицы
-    for (int i = 0; i < MAX_LENGTH; i++)
-    {
-        for (int j = 0; j < MAX_LENGTH; j++)
-        {
-            cout << round(inverseMatrix[i][j] * 1000) / 1000;
-            if (j != 2)
-            {
-                cout << "\t";
-            }
-        }
-        cout << "\n";
-    }
+    OutputMatrix(inverseMatrix);
 }
 
 int main(int argc, char* argv[])
@@ -104,7 +111,10 @@ int main(int argc, char* argv[])
                 cout << "The matrix is not complete!\n";
                 return 1;
             }
+
             input >> str;
+
+            // Проверка на пустой файл
             if (str.length() == 0)
             {
                 cout << "The matrixFile is empty!\n";

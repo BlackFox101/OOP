@@ -19,4 +19,32 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="test.bat">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Radix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="2to10.txt" />
+    <Text Include="10to2.txt" />
+    <Text Include="2to16.txt" />
+    <Text Include="16to2.txt" />
+    <Text Include="2to8.txt" />
+    <Text Include="8to2.txt" />
+    <Text Include="2to32.txt" />
+    <Text Include="32to2.txt" />
+    <Text Include="2to3.txt" />
+    <Text Include="3to2.txt" />
+    <Text Include="10to36.txt" />
+    <Text Include="36to10.txt" />
+    <Text Include="MaxTo2.txt" />
+    <Text Include="-MaxTo2.txt" />
+    <Text Include="2toMax.txt" />
+    <Text Include="2to-Max.txt" />
+  </ItemGroup>
 </Project>

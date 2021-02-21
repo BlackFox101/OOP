@@ -157,6 +157,30 @@
   <ItemGroup>
     <ClCompile Include="Radix.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="test.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Radix.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="-MaxTo2.txt" />
+    <Text Include="10to36.txt" />
+    <Text Include="16to2.txt" />
+    <Text Include="2to-Max.txt" />
+    <Text Include="2to10.txt" />
+    <Text Include="10to2.txt" />
+    <Text Include="2to16.txt" />
+    <Text Include="2to3.txt" />
+    <Text Include="2to32.txt" />
+    <Text Include="2to8.txt" />
+    <Text Include="2toMax.txt" />
+    <Text Include="32to2.txt" />
+    <Text Include="36to10.txt" />
+    <Text Include="3to2.txt" />
+    <Text Include="8to2.txt" />
+    <Text Include="MaxTo2.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
