@@ -113,6 +113,17 @@ fc 2to-Max.txt "%TEMP%\output.txt" > nul || goto testFailed
 echo Test 21 passed
 
 
+:: Проверка перевода из отриц 3 to 16
+%MyProgram% 3 16 -21120 > "%TEMP%\output.txt" || goto testFailed
+fc minus3to16.txt "%TEMP%\output.txt" > nul || goto testFailed
+echo Test 22 passed
+
+:: Проверка перевода отриц 16 to 3
+%MyProgram% 16 3 -CC > "%TEMP%\output.txt" || goto testFailed
+fc minus16to3.txt "%TEMP%\output.txt" > nul || goto testFailed
+echo Test 23 passed
+
+
 :: Тесты прошли успешно
 echo All tests passed successfuly
 exit /B 0

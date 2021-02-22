@@ -180,6 +180,8 @@
     <Text Include="3to2.txt" />
     <Text Include="8to2.txt" />
     <Text Include="MaxTo2.txt" />
+    <Text Include="minus16to3.txt" />
+    <Text Include="minus3to16.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

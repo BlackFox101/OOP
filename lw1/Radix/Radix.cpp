@@ -57,17 +57,24 @@ int RaiseDegree(const int& number, const int& degree)
 }
 
 // Перевод в десятичную систему счисления
-void ConvertToDecimalNotation(std::string& value, int& decimalNumber, int& sourceNotation)
+void ConvertToDecimalNotation(string& value, int& decimalNumber, int& sourceNotation, bool& isNegative)
 {
     int step = 0;
-    for (int i = value.length() - 1; i >= 0; --i)
+    for (int i = value.length() - 1; i >= 0  && value[i] != '-'; --i)
     {
         int number = value[i] - '0';
         if (number >= 10)
         {
             number = CHARACTERS.find(value[i]);
         }
-        decimalNumber = decimalNumber + (number * RaiseDegree(sourceNotation, step));
+        if (isNegative)
+        {
+            decimalNumber = decimalNumber - (number * RaiseDegree(sourceNotation, step));
+        }
+        else
+        {
+            decimalNumber = decimalNumber + (abs(number) * RaiseDegree(sourceNotation, step));
+        }
         step++;
     }
 }
@@ -158,7 +165,7 @@ int main(int argc, char* argv[])
     {
         if (charactersInSourceSystem.find(i) == charactersInSourceSystem.end())
         {
-            cout << "The number of the wrong number system\n";
+            cout << "The number of the wrong number system" << endl;
             return 1;
         }
     }
@@ -172,9 +179,14 @@ int main(int argc, char* argv[])
 
     // Перевод в десятичную
     int decimalNumber = 0;
+    bool isNegative = false;
+    if (value[0] == '-')
+    {
+        isNegative = true;
+    }
     if (sourceNotation != 10)
     {
-        ConvertToDecimalNotation(value, decimalNumber, sourceNotation);
+        ConvertToDecimalNotation(value, decimalNumber, sourceNotation, isNegative);
     }
     else
     {
@@ -197,7 +209,7 @@ int main(int argc, char* argv[])
 
     // Перевод из десятичной системы в нужную
     int tempNumber = decimalNumber;
-    string destinationNotationNumber = "";
+    string destinationNotationNumber;
     ConvertToDestinationNotation(tempNumber, destinationNotation, destinationNotationNumber);
 
     if (decimalNumber < 0)

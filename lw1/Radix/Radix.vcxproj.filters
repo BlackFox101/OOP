@@ -46,5 +46,7 @@
     <Text Include="-MaxTo2.txt" />
     <Text Include="2toMax.txt" />
     <Text Include="2to-Max.txt" />
+    <Text Include="minus3to16.txt" />
+    <Text Include="minus16to3.txt" />
   </ItemGroup>
 </Project>
