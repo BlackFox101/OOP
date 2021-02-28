@@ -100,7 +100,7 @@ int main(int argc, char* argv[])
     float matrix[MAX_LENGTH][MAX_LENGTH];
 
     // Считываем матрицу из файла
-    string str = "";
+    string str;
     for (int i = 0; i < MAX_LENGTH; i++)
     {
         for (int j = 0; j < MAX_LENGTH; j++)
