@@ -34,17 +34,19 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 const string CHARACTERS = "0123456789ABCDEFGHIJKLMNOPQRSRUVWXYZ";
 
 // Перевод строки в число
-void StringToInt(const string& str, int& radix, bool& wasError)
+int StringToInt(const string& str, bool& wasError)
 {
     size_t pos;
-    radix = stoi(str, &pos);
+    int number = stoi(str, &pos);
     if (pos != str.length())
     {
         wasError = true;
     }
+    return number;
 }
 
 // Возведение в степень
+// TODO: Проверка на переполненние
 int RaiseDegree(const int& number, const int& degree)
 {
     int degreeNumber = 1;
@@ -57,29 +59,32 @@ int RaiseDegree(const int& number, const int& degree)
 }
 
 // Перевод в десятичную систему счисления
-void ConvertToDecimalNotation(string& value, int& decimalNumber, int& sourceNotation, bool& isNegative)
+int ConvertToDecimalNotation(const string& value, int sourceNotation)
 {
     int step = 0;
+    int number = 0;
     for (int i = value.length() - 1; i >= 0  && value[i] != '-'; --i)
     {
-        int number = value[i] - '0';
-        if (number >= 10)
+        int digit = value[i] - '0';
+        if (digit >= 10)
         {
-            number = CHARACTERS.find(value[i]);
+            digit = CHARACTERS.find(value[i]);
         }
-        if (isNegative)
+        if (value[0] == '-')
         {
-            decimalNumber = decimalNumber - (number * RaiseDegree(sourceNotation, step));
+            number -= digit * RaiseDegree(sourceNotation, step);
         }
         else
         {
-            decimalNumber = decimalNumber + (abs(number) * RaiseDegree(sourceNotation, step));
+            number += abs(digit) * RaiseDegree(sourceNotation, step);
         }
         step++;
     }
+
+    return number;
 }
 
-void CalculationNumber(int& tempNumber, int destinationNotation, std::string& destinationNotationNumber)
+void CalculationNumber(int& tempNumber, int destinationNotation, string& destinationNotationNumber)
 {
     int remains;
     remains = tempNumber % destinationNotation;
@@ -88,8 +93,9 @@ void CalculationNumber(int& tempNumber, int destinationNotation, std::string& de
 }
 
 // Перевод из десятичной системы в нужную
-void ConvertToDestinationNotation(int& tempNumber, int destinationNotation, std::string& destinationNotationNumber)
+string ConvertToDestinationNotation(int& tempNumber, int destinationNotation)
 {
+    string destinationNotationNumber;
     if (tempNumber > 0)
     {
         do
@@ -104,11 +110,119 @@ void ConvertToDestinationNotation(int& tempNumber, int destinationNotation, std:
             CalculationNumber(tempNumber, destinationNotation, destinationNotationNumber);
         } while (tempNumber < 0);
     }
+
+    return destinationNotationNumber;
 }
 
-// Вывести число
-void OutputNumber(std::string& destinationNotationNumber)
+// Перевод из десятичной системы в нужную
+void ConvertNumberSystem(const string& value, const string& firstNotation, const string& secondNotation, bool& wasError)
 {
+    // Перевод начальной системы счисления из строки в число
+    int sourceNotation = StringToInt(firstNotation, wasError);
+    if (wasError)
+    {
+        cout << "Not the number system passed: '" << firstNotation << "'\n";
+        return;
+    }
+
+    // Перевод следующей системы счисления из строки в число
+    int destinationNotation = StringToInt(secondNotation, wasError);
+    if (wasError)
+    {
+        cout << "Not the number system passed: '" << secondNotation << "'\n";
+        return;
+    }
+
+    //Проверка если передана не верная система счисления
+    if (!(2 <= sourceNotation && sourceNotation <= 36) || !(2 <= destinationNotation && destinationNotation <= 36))
+    {
+        cout << "One of the number systems does not exist\n";
+        wasError = true;
+        return;
+    }
+
+    // Множество из символов начальной системы счисления
+    set<char> charactersInSourceSystem = { '-' };
+    for (int i = 0; i < sourceNotation; i++)
+    {
+        charactersInSourceSystem.insert(CHARACTERS[i]);
+    }
+
+    // Проверка переданное число соотвествует начальной системе счисления
+    for (auto i : value)
+    {
+        if (charactersInSourceSystem.find(i) == charactersInSourceSystem.end())
+        {
+            cout << "The number of the wrong number system" << endl;
+            wasError = true;
+            return;
+        }
+    }
+
+    // Если нужная система совпадает с начальной
+    if (sourceNotation == destinationNotation)
+    {
+        cout << value << endl;
+        return;
+    }
+
+    // Перевод в десятичную
+    int number = 0;
+    if (sourceNotation != 10)
+    {
+        number = ConvertToDecimalNotation(value, sourceNotation);
+    }
+    else
+    {
+        if (value > "2147483647")
+        {
+            wasError = true;
+            cout << "The number is very large" << endl;
+            return;
+        }
+        if (value[0] == '-' && value > "-2147483648")
+        {
+            wasError = true;
+            cout << "The number is very small" << endl;
+            return;
+        }
+        number = StringToInt(value, wasError);
+    }
+
+    if ((value != "-1" || value != "1") && (number == -1 || number == 1))
+    {
+        wasError = true;
+        cout << "The number is very large" << endl;
+        return;
+    }
+
+    // Если нужна десятичная
+    if (destinationNotation == 10)
+    {
+        cout << number << endl;
+        return;
+    }
+
+    // Перевод из десятичной системы в нужную
+    int tempNumber = number;
+    string destinationNotationNumber = ConvertToDestinationNotation(tempNumber, destinationNotation);
+    if (number < 0)
+    {
+        destinationNotationNumber += "-";
+    }
+    else
+    {
+        destinationNotationNumber += CHARACTERS[tempNumber];
+    }
+
+    if (destinationNotationNumber == "1-")
+    {
+        wasError = true;
+        cout << "The number is very large" << endl;
+        return;
+    }
+
+    // Вывести число нужно системы счисления
     for (int i = destinationNotationNumber.length() - 1; i >= 0; --i)
     {
         cout << destinationNotationNumber[i];
@@ -125,103 +239,12 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    int sourceNotation = 0; // Начальная система счисления
-    int destinationNotation = 0; // В какую перевести
     bool wasError = false;
-
-    // Перевод начальной системы счисления из строки в число
-    StringToInt(args->sourceNotation, sourceNotation, wasError);
+    ConvertNumberSystem(args->value, args->sourceNotation, args->destinationNotation, wasError);
     if (wasError)
     {
-        cout << "Not the number system passed: '" << args->sourceNotation << "'\n";
         return 1;
     }
-
-    // Перевод следующей системы счисления из строки в число
-    StringToInt(args->destinationNotation, destinationNotation, wasError);
-    if (wasError)
-    {
-        cout << "Not the number system passed: '" << args->destinationNotation << "'\n";
-        return 1;
-    }
-
-    //Проверка если передана не верная система счисления
-    if (!(2 <= sourceNotation && sourceNotation <= 36) || !(2 <= destinationNotation && destinationNotation <= 36))
-    {
-        cout << "One of the number systems does not exist\n";
-        return 1;
-    }
-
-    // Множество из символов начальной системы счисления
-    set<char> charactersInSourceSystem = {'-'};
-    for (int i = 0; i < sourceNotation; i++)
-    {
-        charactersInSourceSystem.insert(CHARACTERS[i]);
-    }
-
-    string value = args->value;
-    // Проверка переданное число соотвествует начальной системе счисления
-    for (auto i : value)
-    {
-        if (charactersInSourceSystem.find(i) == charactersInSourceSystem.end())
-        {
-            cout << "The number of the wrong number system" << endl;
-            return 1;
-        }
-    }
-
-    // Если нужная система совпадает с начальной
-    if (sourceNotation == destinationNotation)
-    {
-        cout << value << endl;
-        return 0;
-    }
-
-    // Перевод в десятичную
-    int decimalNumber = 0;
-    bool isNegative = false;
-    if (value[0] == '-')
-    {
-        isNegative = true;
-    }
-    if (sourceNotation != 10)
-    {
-        ConvertToDecimalNotation(value, decimalNumber, sourceNotation, isNegative);
-    }
-    else
-    {
-        StringToInt(value, decimalNumber, wasError);
-    }
-
-    // Если нужна десятичная
-    if (destinationNotation == 10)
-    {
-        cout << decimalNumber << endl;
-        return 0;
-    }
-
-    // Множество из символов нужной системы счисления
-    set<char> charactersInDestinationSystem;
-    for (int i = 0; i < destinationNotation; i++)
-    {
-        charactersInDestinationSystem.insert(CHARACTERS[i]);
-    }
-
-    // Перевод из десятичной системы в нужную
-    int tempNumber = decimalNumber;
-    string destinationNotationNumber;
-    ConvertToDestinationNotation(tempNumber, destinationNotation, destinationNotationNumber);
-
-    if (decimalNumber < 0)
-    {
-        destinationNotationNumber += "-";
-    }
-    else
-    {
-        destinationNotationNumber += CHARACTERS[tempNumber];
-    }
-    // Вывести число
-    OutputNumber(destinationNotationNumber);
 
     return 0;
 }
