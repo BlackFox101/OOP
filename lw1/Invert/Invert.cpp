@@ -6,8 +6,8 @@
 #include "Invert.h"
 
 using namespace std;
-
 const int MAX_LENGTH = 3;
+typedef float Matrix3x3[MAX_LENGTH][MAX_LENGTH];
 
 struct Args
 {
@@ -28,7 +28,7 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
     return args;
 }
 
-void OutputMatrix(float matrix[3][3])
+void OutputMatrix(Matrix3x3 matrix)
 {
     for (int i = 0; i < MAX_LENGTH; i++)
     {
@@ -44,7 +44,7 @@ void OutputMatrix(float matrix[3][3])
     }
 }
 
-float FindDeterminant(float  matrix[3][3])
+float FindDeterminant(const Matrix3x3 matrix)
 {
     // Находим определительм матрицы
     float determinant = matrix[0][0] * matrix[1][1] * matrix[2][2] - matrix[0][0] * matrix[1][2] * matrix[2][1]
@@ -54,7 +54,7 @@ float FindDeterminant(float  matrix[3][3])
     return determinant;
 }
 
-void TransposeAndCalcMinor(float inverseMatrix[3][3], float matrix[3][3], const float determinant)
+void TransposeAndCalcMinor(Matrix3x3 inverseMatrix, const Matrix3x3 matrix, const float determinant)
 {
     // Высчитываем миноры и высчитываем обратную матрицу
     inverseMatrix[0][0] = (matrix[1][1] * matrix[2][2] - matrix[2][1] * matrix[1][2]) / determinant;
@@ -68,15 +68,61 @@ void TransposeAndCalcMinor(float inverseMatrix[3][3], float matrix[3][3], const 
     inverseMatrix[2][2] = (matrix[0][0] * matrix[1][1] - matrix[1][0] * matrix[0][1]) / determinant;
 }
 
-void FindInverseMatrix(float  matrix[3][3], const float& determinant)
+void FindInverseMatrix(Matrix3x3 inversiveMatrix, Matrix3x3 matrix, bool& wasError)
 {
+    // Найти определитель
+    const float determinant = FindDeterminant(matrix);
+    if (determinant == 0)
+    {
+        cout << "The inverse matrix cannot be found, since the determinant of the matrix is zero!\n" ;
+        wasError = true;
+        return;
+    }
 
     // Транспонирование и вычисление миноров
-    float inverseMatrix[MAX_LENGTH][MAX_LENGTH];
-    TransposeAndCalcMinor(inverseMatrix, matrix, determinant);
+    TransposeAndCalcMinor(inversiveMatrix, matrix, determinant);
+}
 
-    // Вывод обратной матрицы
-    OutputMatrix(inverseMatrix);
+void ReadMatrixFromFile(ifstream& input, Matrix3x3 matrix, bool& wasError)
+{
+    // Считываем матрицу из файла
+    string str;
+    for (int i = 0; i < MAX_LENGTH; i++)
+    {
+        for (int j = 0; j < MAX_LENGTH; j++)
+        {
+            // Проверка на полную матрицу
+            if (input.eof())
+            {
+                cout << "The matrix is not complete!\n";
+                wasError = true;
+                return;
+            }
+
+            input >> str;
+
+            // Проверка на пустой файл
+            if (str.length() == 0)
+            {
+                cout << "The matrixFile is empty!\n";
+                wasError = true;
+                return;
+            }
+
+            // Проверка элемента матрицы на число
+            size_t pos;
+            float number = stof(str, &pos);
+            if (pos != str.length())
+            {
+                cout << "The matrix does not specify a number: " << str << endl;
+                wasError = true;
+                return;
+            }
+
+            matrix[i][j] = number;
+        }
+        getline(input, str); // После прочтения в строке 3-x элементов остальное пропустить
+    }
 }
 
 int main(int argc, char* argv[])
@@ -97,59 +143,29 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    float matrix[MAX_LENGTH][MAX_LENGTH];
+    Matrix3x3 matrix;
 
-    // Считываем матрицу из файла
-    string str;
-    for (int i = 0; i < MAX_LENGTH; i++)
+    bool wasError = false;
+    ReadMatrixFromFile(input, matrix, wasError);
+    if (wasError)
     {
-        for (int j = 0; j < MAX_LENGTH; j++)
-        {
-            // Проверка на полную матрицу
-            if (input.eof())
-            {
-                cout << "The matrix is not complete!\n";
-                return 1;
-            }
-
-            input >> str;
-
-            // Проверка на пустой файл
-            if (str.length() == 0)
-            {
-                cout << "The matrixFile is empty!\n";
-                return 1;
-            }
-            
-            // Проверка элемента матрицы на число
-            size_t pos;
-            float number = stof(str, &pos);
-            if (pos != str.length())
-            {
-                cout << "The matrix does not specify a number: " << str << endl;
-                return 1;
-            }
-
-            matrix[i][j] = number;
-        }
-        getline(input, str); // После прочтения в строке 3-x элементов остальное пропустить
-    }
-
-    // Найти определитель
-    const float determinant = FindDeterminant(matrix);
-    if (determinant == 0)
-    {
-        cout << "The inverse matrix cannot be found, since the determinant of the matrix is zero!\n" ;
         return 1;
     }
 
-    FindInverseMatrix(matrix, determinant);
+    Matrix3x3 inverseMatrix;
+    FindInverseMatrix(inverseMatrix, matrix, wasError);
+    if (wasError)
+    {
+        return 1;
+    }
 
     if (input.bad())
     {
         cout << "Failed to read data from input file\n";
         return 1;
     }
+
+    OutputMatrix(inverseMatrix);
 
     return 0;
 }

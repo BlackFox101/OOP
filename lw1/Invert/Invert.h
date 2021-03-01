@@ -9,3 +9,5 @@ void Transpose(float  inverseMatrix[3][3], float  matrix[3][3], float determinan
 int ReadMatrix(std::ifstream& input, std::string& str, float  matrix[3][3], bool& retflag);
 
 void OutputMatrix(float  inverseMatrix[3][3]);
+
+int ReadMatrix(std::ifstream& input, float  matrix[3][3], bool& retflag);
