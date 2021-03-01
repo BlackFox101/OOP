@@ -124,20 +124,12 @@ fc minus16to3.txt "%TEMP%\output.txt" > nul || goto testFailed
 echo Test 23 passed
 
 :: Проверка на очень большое число
-%MyProgram% 10 12 2147483648 && goto testFailed
+%MyProgram% 16 12 FFFFFFFF && goto testFailed
 echo Test 24 passed
 
 :: Проверка на очень маленькое число
-%MyProgram% 10 12 -2147483649 && goto testFailed
-echo Test 25 passed
-
-:: Проверка на очень большое число
-%MyProgram% 16 12 FFFFFFFF && goto testFailed
-echo Test 26 passed
-
-:: Проверка на очень маленькое число
 %MyProgram% 16 12 -FFFFFFFF && goto testFailed
-echo Test 27 passed
+echo Test 25 passed
 
 
 :: Тесты прошли успешно

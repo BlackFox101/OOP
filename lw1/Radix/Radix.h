@@ -5,3 +5,5 @@ void CalculationNumber(int& remains, int& tempNumber, int destinationNotation, s
 void OutputNumber(std::string& destinationNotationNumber, int tempNumber);
 
 void ConvertToDestinationNotation(int& tempNumber, int destinationNotation, int& remains, std::string& destinationNotationNumber);
+
+void ReverseString(std::string& destinationNotationNumber);
