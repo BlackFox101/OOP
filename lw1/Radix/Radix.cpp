@@ -149,7 +149,7 @@ string ConvertNumberSystem(const string& value, const int sourceNotation, const 
         return value;
     }
 
-    // Перевод в числа в привычную систему счисления(10)
+    // Перевод числа в привычную систему счисления(10)
     int number = 0;
     if (sourceNotation != 10)
     {
@@ -173,7 +173,7 @@ string ConvertNumberSystem(const string& value, const int sourceNotation, const 
         return to_string(number);
     }
 
-    // Перевод из десятичной системы в нужную
+    // Перевод в нужную систему счисления
     int tempNumber = number;
     string destinationNotationNumber = ConvertToDestinationNotation(tempNumber, destinationNotation);
     if (number < 0)
