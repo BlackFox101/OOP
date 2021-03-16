@@ -34,7 +34,7 @@ optional<Args> ParseArgs(int argc, char* argv[])
     return args;
 }
 
-void PushToQueue(Point pt, char matrix[100][100], const int lines, const int columns, queue<Point>& cells)
+void PaintAndPushToQueue(Point pt, char matrix[100][100], const int lines, const int columns, queue<Point>& cells)
 {
     if (matrix[pt.x][pt.y] == ' ')
     {
@@ -54,22 +54,22 @@ void Fill(Point firstPoint, char matrix[100][100], const int lines, const int co
 
         if (pt.x + 1 < lines && pt.y < columns && matrix[pt.x + 1][pt.y] == ' ')
         {
-            PushToQueue({ pt.x + 1, pt.y }, matrix, lines, columns, cells);
+            PaintAndPushToQueue({ pt.x + 1, pt.y }, matrix, lines, columns, cells);
         }
 
         if (pt.x - 1 < lines && pt.y < columns && matrix[pt.x - 1][pt.y] == ' ')
         {
-            PushToQueue({ pt.x - 1, pt.y }, matrix, lines, columns, cells);
+            PaintAndPushToQueue({ pt.x - 1, pt.y }, matrix, lines, columns, cells);
         }
 
         if (pt.x < lines && pt.y + 1 < columns && matrix[pt.x][pt.y + 1] == ' ')
         {
-            PushToQueue({ pt.x, pt.y + 1 }, matrix, lines, columns, cells);
+            PaintAndPushToQueue({ pt.x, pt.y + 1 }, matrix, lines, columns, cells);
         }
 
         if (pt.x < lines && pt.y - 1 < columns && matrix[pt.x][pt.y - 1] == ' ')
         {
-            PushToQueue({ pt.x, pt.y - 1 }, matrix, lines, columns, cells);
+            PaintAndPushToQueue({ pt.x, pt.y - 1 }, matrix, lines, columns, cells);
         }
     }
 }
