@@ -47,7 +47,8 @@ int StringToInt(const string& str, bool& wasError)
 
 // Возведение в степень
 // TODO: Проверка на переполненние
-int RaiseDegree(const int& number, const int& degree)
+int 
+(const int& number, const int& degree)
 {
     int degreeNumber = 1;
     for (int i = 0; i < degree; i++)
