@@ -1,4 +1,4 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <fstream>
 #include <optional>
 #include <string>
@@ -98,7 +98,7 @@ void FillingMatrix(vector<vector<char>>& matrix, const int linesCounter, const i
     }
 }
 
-void ReadСontoursFromFile(int linesCounter, ifstream& input, vector<vector<char>>& matrix)
+void ReadContoursFromFile(int linesCounter, ifstream& input, vector<vector<char>>& matrix)
 {
     string line;
     for (int i = 0; i < linesCounter; i++)
@@ -141,13 +141,13 @@ void OutputMatrix(ofstream& output, vector<vector<char>> matrix, const int lines
 int main(int argc, char* argv[])
 {
     auto args = ParseArgs(argc, argv);
-    // Проверка правильности аргументов командной строки
+    // РџСЂРѕРІРµСЂРєР° РїСЂР°РІРёР»СЊРЅРѕСЃС‚Рё Р°СЂРіСѓРјРµРЅС‚РѕРІ РєРѕРјР°РЅРґРЅРѕР№ СЃС‚СЂРѕРєРё
     if (!args)
     {
         return 1;
     }
 
-    // Открываем входной файл
+    // РћС‚РєСЂС‹РІР°РµРј РІС…РѕРґРЅРѕР№ С„Р°Р№Р»
     ifstream input;
     input.open(args->inputFileName);
     if (!input.is_open())
@@ -155,7 +155,7 @@ int main(int argc, char* argv[])
         cout << "Failed to open '" << args->inputFileName << "' for reading\n";
         return 1;
     }
-    // Открваем входной файл
+    // РћС‚РєСЂРІР°РµРј РІС…РѕРґРЅРѕР№ С„Р°Р№Р»
     ofstream output;
     output.open(args->outputFileName);
     if (!output.is_open())
@@ -166,7 +166,7 @@ int main(int argc, char* argv[])
 
     int linesCounter = 0;
     int columnsCounter = 0;
-    // Подсчет количества строк и максимальную длину строки в файле
+    // РџРѕРґСЃС‡РµС‚ РєРѕР»РёС‡РµСЃС‚РІР° СЃС‚СЂРѕРє Рё РјР°РєСЃРёРјР°Р»СЊРЅСѓСЋ РґР»РёРЅСѓ СЃС‚СЂРѕРєРё РІ С„Р°Р№Р»Рµ
     CountLinesAndColumnsFromFile(input, columnsCounter, linesCounter);
 
     if (linesCounter == 0 && columnsCounter == 0)
@@ -177,17 +177,17 @@ int main(int argc, char* argv[])
 
     vector<vector<char> > matrix(linesCounter, vector<char>(columnsCounter));
 
-    // Заполнить нужную область массива пробел
+    // Р—Р°РїРѕР»РЅРёС‚СЊ РјР°СЃСЃРёРІ РїСЂРѕР±РµР»Р°РјРё
     FillingMatrix(matrix, linesCounter, columnsCounter, ' ');
 
     input.clear();
     input.seekg(0);
-    // Считать контуры с файла
-    ReadСontoursFromFile(linesCounter, input, matrix);
+    // РЎС‡РёС‚Р°С‚СЊ РєРѕРЅС‚СѓСЂС‹ СЃ С„Р°Р№Р»Р°
+    ReadContoursFromFile(linesCounter, input, matrix);
 
     FillingAreas(linesCounter, columnsCounter, matrix);
 
-    // Вывести матрицу
+    // Р’С‹РІРµСЃС‚Рё РјР°С‚СЂРёС†Сѓ
     OutputMatrix(output, matrix, linesCounter, columnsCounter);
 
     if (input.bad())
