@@ -3,7 +3,7 @@
 #include <optional>
 #include <string>
 #include <queue>
-#include "fill.h"
+#include <vector>
 
 using namespace std;
 
@@ -34,7 +34,7 @@ optional<Args> ParseArgs(int argc, char* argv[])
     return args;
 }
 
-void PaintAndPushToQueue(Point pt, char matrix[100][100], const int lines, const int columns, queue<Point>& cells)
+void PaintAndPushToQueue(Point pt, vector<vector<char>>& matrix, const int lines, const int columns, queue<Point>& cells)
 {
     if (matrix[pt.x][pt.y] == ' ')
     {
@@ -43,7 +43,7 @@ void PaintAndPushToQueue(Point pt, char matrix[100][100], const int lines, const
     }
 }
 
-void Fill(Point firstPoint, char matrix[100][100], const int lines, const int columns, queue<Point>& cells)
+void Fill(Point firstPoint, vector<vector<char>>& matrix, const int lines, const int columns, queue<Point>& cells)
 {
     cells.push(firstPoint);
 
@@ -52,22 +52,22 @@ void Fill(Point firstPoint, char matrix[100][100], const int lines, const int co
         Point pt = cells.front();
         cells.pop();
 
-        if (pt.x + 1 < lines && pt.y < columns && matrix[pt.x + 1][pt.y] == ' ')
+        if (pt.x + 1 < lines && pt.y < columns)
         {
             PaintAndPushToQueue({ pt.x + 1, pt.y }, matrix, lines, columns, cells);
         }
 
-        if (pt.x - 1 < lines && pt.y < columns && matrix[pt.x - 1][pt.y] == ' ')
+        if (pt.x - 1 < lines && pt.x - 1 >= 0 && pt.y < columns)
         {
             PaintAndPushToQueue({ pt.x - 1, pt.y }, matrix, lines, columns, cells);
         }
 
-        if (pt.x < lines && pt.y + 1 < columns && matrix[pt.x][pt.y + 1] == ' ')
+        if (pt.x < lines && pt.y + 1 < columns)
         {
             PaintAndPushToQueue({ pt.x, pt.y + 1 }, matrix, lines, columns, cells);
         }
 
-        if (pt.x < lines && pt.y - 1 < columns && matrix[pt.x][pt.y - 1] == ' ')
+        if (pt.x < lines && pt.y - 1 < columns && pt.y - 1 >= 0)
         {
             PaintAndPushToQueue({ pt.x, pt.y - 1 }, matrix, lines, columns, cells);
         }
@@ -87,7 +87,7 @@ void CountLinesAndColumnsFromFile(ifstream& input, int& columnsCounter, int& lin
     }
 }
 
-void FillingMatrix(char matrix[100][100], const int linesCounter, const int columnsCounter, const char symbol)
+void FillingMatrix(vector<vector<char>>& matrix, const int linesCounter, const int columnsCounter, const char symbol)
 {
     for (int i = 0; i < linesCounter; i++)
     {
@@ -98,7 +98,7 @@ void FillingMatrix(char matrix[100][100], const int linesCounter, const int colu
     }
 }
 
-void ReadÑontoursFromFile(int linesCounter, ifstream& input, char matrix[100][100])
+void ReadÑontoursFromFile(int linesCounter, ifstream& input, vector<vector<char>>& matrix)
 {
     string line;
     for (int i = 0; i < linesCounter; i++)
@@ -111,7 +111,7 @@ void ReadÑontoursFromFile(int linesCounter, ifstream& input, char matrix[100][10
     }
 }
 
-void FillingAreas(const int linesCounter, const int columnsCounter, char matrix[100][100])
+void FillingAreas(const int linesCounter, const int columnsCounter, vector<vector<char>>& matrix)
 {
     queue<Point> cells;
     for (int i = 0; i < linesCounter; i++)
@@ -126,7 +126,7 @@ void FillingAreas(const int linesCounter, const int columnsCounter, char matrix[
     }
 }
 
-void OutputMatrix(ofstream& output, char matrix[100][100], const int linesCounter, const int columnsCounter)
+void OutputMatrix(ofstream& output, vector<vector<char>> matrix, const int linesCounter, const int columnsCounter)
 {
     for (int i = 0; i < linesCounter; i++)
     {
@@ -175,7 +175,8 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    char matrix[100][100];
+    vector<vector<char> > matrix(linesCounter, vector<char>(columnsCounter));
+
     // Çàïîëíèòü íóæíóş îáëàñòü ìàññèâà ïğîáåë
     FillingMatrix(matrix, linesCounter, columnsCounter, ' ');
 
