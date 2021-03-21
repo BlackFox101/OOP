@@ -68,7 +68,7 @@ void TransposeAndCalcMinor(Matrix3x3 inverseMatrix, const Matrix3x3 matrix, cons
     inverseMatrix[2][2] = (matrix[0][0] * matrix[1][1] - matrix[1][0] * matrix[0][1]) / determinant;
 }
 
-void FindInverseMatrix(Matrix3x3 inversiveMatrix, Matrix3x3 matrix, bool& wasError)
+void FindInverseMatrix(Matrix3x3 inversiveMatrix, const Matrix3x3 matrix, bool& wasError)
 {
     // Найти определитель
     const float determinant = FindDeterminant(matrix);
@@ -83,7 +83,7 @@ void FindInverseMatrix(Matrix3x3 inversiveMatrix, Matrix3x3 matrix, bool& wasErr
     TransposeAndCalcMinor(inversiveMatrix, matrix, determinant);
 }
 
-void ReadMatrixFromFile(ifstream& input, Matrix3x3 matrix, bool& wasError)
+void ReadMatrixFromFile(ifstream& input, Matrix3x3& matrix, bool& wasError)
 {
     // Считываем матрицу из файла
     string str;
