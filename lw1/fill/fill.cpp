@@ -19,6 +19,8 @@ struct Args
     string outputFileName;
 };
 
+typedef vector<vector<char>> Picture;
+
 optional<Args> ParseArgs(int argc, char* argv[])
 {
     if (argc != 3)
@@ -34,7 +36,7 @@ optional<Args> ParseArgs(int argc, char* argv[])
     return args;
 }
 
-void PaintAndPushToQueue(Point pt, vector<vector<char>>& matrix, const int lines, const int columns, queue<Point>& cells)
+void PaintAndPushToQueue(Point pt, Picture& matrix, queue<Point>& cells)
 {
     if (matrix[pt.x][pt.y] == ' ')
     {
@@ -43,8 +45,11 @@ void PaintAndPushToQueue(Point pt, vector<vector<char>>& matrix, const int lines
     }
 }
 
-void Fill(Point firstPoint, vector<vector<char>>& matrix, const int lines, const int columns, queue<Point>& cells)
+void Fill(Point firstPoint, Picture& matrix)
 {
+    int lines = matrix.size();
+    int columns = matrix[0].size();
+    queue<Point> cells;
     cells.push(firstPoint);
 
     while (!cells.empty())
@@ -54,32 +59,32 @@ void Fill(Point firstPoint, vector<vector<char>>& matrix, const int lines, const
 
         if (pt.x + 1 < lines && pt.y < columns)
         {
-            PaintAndPushToQueue({ pt.x + 1, pt.y }, matrix, lines, columns, cells);
+            PaintAndPushToQueue({ pt.x + 1, pt.y }, matrix, cells);
         }
 
         if (pt.x - 1 < lines && pt.x - 1 >= 0 && pt.y < columns)
         {
-            PaintAndPushToQueue({ pt.x - 1, pt.y }, matrix, lines, columns, cells);
+            PaintAndPushToQueue({ pt.x - 1, pt.y }, matrix, cells);
         }
 
         if (pt.x < lines && pt.y + 1 < columns)
         {
-            PaintAndPushToQueue({ pt.x, pt.y + 1 }, matrix, lines, columns, cells);
+            PaintAndPushToQueue({ pt.x, pt.y + 1 }, matrix, cells);
         }
 
         if (pt.x < lines && pt.y - 1 < columns && pt.y - 1 >= 0)
         {
-            PaintAndPushToQueue({ pt.x, pt.y - 1 }, matrix, lines, columns, cells);
+            PaintAndPushToQueue({ pt.x, pt.y - 1 }, matrix, cells);
         }
     }
 }
 
-void CountLinesAndColumnsFromFile(ifstream& input, int& columnsCounter, int& linesCounter)
+void CountLinesAndColumnsFromFile(istream& input, int& linesCounter, int& columnsCounter)
 {
     string line;
     while (getline(input, line))
     {
-        if (columnsCounter < line.length())
+        if (columnsCounter < (int)line.length())
         {
             columnsCounter = line.length();
         }
@@ -87,55 +92,80 @@ void CountLinesAndColumnsFromFile(ifstream& input, int& columnsCounter, int& lin
     }
 }
 
-void FillingMatrix(vector<vector<char>>& matrix, const int linesCounter, const int columnsCounter, const char symbol)
+Picture ReadContursFromFile(istream& input)
 {
-    for (int i = 0; i < linesCounter; i++)
+    int linesCounter = 0;
+    int columnsCounter = 0;
+    CountLinesAndColumnsFromFile(input, linesCounter, columnsCounter);
+    if (linesCounter == 0 && columnsCounter == 0)
     {
-        for (int j = 0; j < columnsCounter; j++)
-        {
-            matrix[i][j] = symbol;
-        }
+        return {};
     }
-}
 
-void ReadContoursFromFile(int linesCounter, ifstream& input, vector<vector<char>>& matrix)
-{
+    Picture matrix(linesCounter, vector<char>(columnsCounter));
+
+    input.clear();
+    input.seekg(0);
     string line;
-    for (int i = 0; i < linesCounter; i++)
+    for (size_t i = 0; i < matrix.size(); i++)
     {
         getline(input, line);
-        for (int j = 0; j < line.length(); j++)
+        for (size_t j = 0; j < line.length(); j++)
         {
             matrix[i][j] = line[j];
         }
+        for (size_t j = line.length(); j < matrix[0].size(); j++)
+        {
+            matrix[i][j] = ' ';
+        }
     }
+
+    return matrix;
 }
 
-void FillingAreas(const int linesCounter, const int columnsCounter, vector<vector<char>>& matrix)
+void FillingAreas(Picture& matrix)
 {
-    queue<Point> cells;
-    for (int i = 0; i < linesCounter; i++)
+    for (int i = 0; i < (int)matrix.size(); i++)
     {
-        for (int j = 0; j < columnsCounter; j++)
+        for (int j = 0; j < (int)matrix[0].size(); j++)
         {
             if (matrix[i][j] == 'O')
             {
-                Fill({ i, j }, matrix, linesCounter, columnsCounter, cells);
+                Fill({ i, j }, matrix);
             }
         }
     }
 }
 
-void OutputMatrix(ofstream& output, vector<vector<char>> matrix, const int linesCounter, const int columnsCounter)
+void OutputMatrix(ostream& output, const Picture& matrix)
 {
-    for (int i = 0; i < linesCounter; i++)
+    for (int i = 0; i < (int)matrix.size(); i++)
     {
-        for (int j = 0; j < columnsCounter; j++)
+        for (int j = 0; j < (int)matrix[0].size(); j++)
         {
             output << matrix[i][j];
         }
         output << endl;
     }
+}
+
+bool OpenInputOutputFiles(ifstream& input, ofstream& output, string inputFileName, string outputFileName)
+{
+    input.open(inputFileName);
+    if (!input.is_open())
+    {
+        cout << "Failed to open '" << inputFileName << "' for reading\n";
+        return false;
+    }
+
+    output.open(outputFileName);
+    if (!output.is_open())
+    {
+        cout << "Failed to open '" << outputFileName << "' for writing\n";
+        return false;
+    }
+
+    return true;
 }
 
 int main(int argc, char* argv[])
@@ -147,48 +177,23 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    // Открываем входной файл
     ifstream input;
-    input.open(args->inputFileName);
-    if (!input.is_open())
-    {
-        cout << "Failed to open '" << args->inputFileName << "' for reading\n";
-        return 1;
-    }
-    // Открваем входной файл
     ofstream output;
-    output.open(args->outputFileName);
-    if (!output.is_open())
+    if (!OpenInputOutputFiles(input, output, args->inputFileName, args->outputFileName))
     {
-        cout << "Failed to open '" << args->outputFileName << "' for writing\n";
         return 1;
     }
 
-    int linesCounter = 0;
-    int columnsCounter = 0;
-    // Подсчет количества строк и максимальную длину строки в файле
-    CountLinesAndColumnsFromFile(input, columnsCounter, linesCounter);
-
-    if (linesCounter == 0 && columnsCounter == 0)
+    Picture matrix = ReadContursFromFile(input);
+    if (matrix.empty())
     {
-        cout << "File is empty\n";
+        cout << "File is empty!\n";
         return 1;
     }
 
-    vector<vector<char> > matrix(linesCounter, vector<char>(columnsCounter));
+    FillingAreas(matrix);
 
-    // Заполнить массив пробелами
-    FillingMatrix(matrix, linesCounter, columnsCounter, ' ');
-
-    input.clear();
-    input.seekg(0);
-    // Считать контуры с файла
-    ReadContoursFromFile(linesCounter, input, matrix);
-
-    FillingAreas(linesCounter, columnsCounter, matrix);
-
-    // Вывести матрицу
-    OutputMatrix(output, matrix, linesCounter, columnsCounter);
+    OutputMatrix(output, matrix);
 
     if (input.bad())
     {
