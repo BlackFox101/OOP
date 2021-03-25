@@ -1,8 +1,8 @@
 #include <iostream>
 #define CATCH_CONFIG_MAIN
-#include "../../catch2/catch.hpp"
+#include "../../../catch2/catch.hpp"
 
-#include "../vector/vector.h"
+#include "../vector_program/vector.h"
 
 
 SCENARIO("Read vector")
