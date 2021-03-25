@@ -9,7 +9,7 @@ int main()
 {
     vector<float> numbers = ReadVector(cin);
 
-    MultiplyElementsVector(numbers, numbers[FindMinValuePosition(numbers)]);
+    MultiplyEachElemenstyWithMinimumElement(numbers);
 
     SortVector(numbers);
 

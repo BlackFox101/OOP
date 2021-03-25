@@ -30,24 +30,23 @@ SCENARIO("Read vector")
 	}
 }
 
-SCENARIO("Find minimal value position in matrix")
+SCENARIO("Multiply each element of the vector by the minimum element")
 {
-	REQUIRE(FindMinValuePosition({ 1, 2, 3 }) == 0);
-	REQUIRE(FindMinValuePosition({ 1, 1, 3 }) == 0);
-	REQUIRE(FindMinValuePosition({ 1 }) == 0);
-}
-
-SCENARIO("Multiply vector elements")
-{
-	//std::ostringstream output;
 	WHEN("Some elements")
 	{
 		vector<float> numbers = { 2, 2, 3 };
-		MultiplyElementsVector(numbers, numbers[0]);
+		MultiplyEachElemenstyWithMinimumElement(numbers);
 		REQUIRE(numbers.size() == 3);
 		REQUIRE(numbers[0] == 4);
 		REQUIRE(numbers[1] == 4);
 		REQUIRE(numbers[2] == 6);
+	}
+
+	WHEN("Empty vector")
+	{
+		vector<float> numbers = {};
+		MultiplyEachElemenstyWithMinimumElement(numbers);
+		REQUIRE(numbers.empty());
 	}
 }
 
