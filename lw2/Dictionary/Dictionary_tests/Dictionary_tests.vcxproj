@@ -139,10 +139,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Dictionary\Dictionary.cpp" />
     <ClCompile Include="Dictionary_tests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Dictionary\Dictionary.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="test_dict.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,4 +1,4 @@
-ï»¿#include <iostream>
+#include <iostream>
 #include <fstream>
 #include <map>
 #include <vector>
@@ -32,12 +32,31 @@ void InitDictionary(fstream& initFile, map<string, string>& dictionary)
 
 void SaveDictionary(fstream& vocabularyFile, map<string, string> dictionary)
 {
-    vocabularyFile.clear();
-    vocabularyFile.seekg(0);
     map<string, string>::iterator it;
     for (it = dictionary.begin(); it != dictionary.end(); ++it) {
         vocabularyFile << it->first << "-" << it->second << endl;
     }
+}
+
+void Save(fstream& vocabularyFile, map<string, string> dictionary)
+{
+    if (vocabularyFile.is_open())
+    {
+        vocabularyFile.clear();
+        vocabularyFile.seekg(0);
+        SaveDictionary(vocabularyFile, dictionary);
+
+        return;
+    }
+
+    fstream output;
+    output.open("Dictionary.txt");
+    if (!output.is_open())
+    {
+        cout << "Failed to open 'Dictionary.txt' for writing\n";
+        return;
+    }
+    SaveDictionary(output, dictionary);
 }
 
 void WorkingDictionary(fstream& vocabularyFile, map<string, string>& dictionary)
@@ -56,18 +75,18 @@ void WorkingDictionary(fstream& vocabularyFile, map<string, string>& dictionary)
         }
         else 
         {
-            cout << "ÐÐµÐ¸Ð·Ð²ÐµÑÑ‚Ð½Ð¾Ðµ ÑÐ»Ð¾Ð²Ð¾ â€œ"<< findWord <<"â€. Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð¿ÐµÑ€ÐµÐ²Ð¾Ð´ Ð¸Ð»Ð¸ Ð¿ÑƒÑÑ‚ÑƒÑŽ ÑÑ‚Ñ€Ð¾ÐºÑƒ Ð´Ð»Ñ Ð¾Ñ‚ÐºÐ°Ð·Ð°.\n";
+            cout << "Íåèçâåñòíîå ñëîâî “"<< findWord <<"”. Ââåäèòå ïåðåâîä èëè ïóñòóþ ñòðîêó äëÿ îòêàçà.\n";
             string translation;
             getline(cin, translation);
             if (translation != "")
             {
                 dictionary[word] = translation;
-                cout << "Ð¡Ð»Ð¾Ð²Ð¾ â€œ" << findWord << "â€ ÑÐ¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¾ Ð² ÑÐ»Ð¾Ð²Ð°Ñ€Ðµ ÐºÐ°Ðº â€œ" << translation << "â€.\n";
+                cout << "Ñëîâî “" << findWord << "” ñîõðàíåíî â ñëîâàðå êàê “" << translation << "”.\n";
                 wasChange = true;
             }
             else
             {
-                cout << "Ð¡Ð»Ð¾Ð²Ð¾ â€œ" << findWord << "â€Ð¿Ñ€Ð¾Ð¸Ð³Ð½Ð¾Ñ€Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¾.\n";
+                cout << "Ñëîâî “" << findWord << "”ïðîèãíîðèðîâàíî.\n";
             }
         }
         getline(cin, word);
@@ -76,12 +95,12 @@ void WorkingDictionary(fstream& vocabularyFile, map<string, string>& dictionary)
     if (wasChange)
     {
         char ch;
-        cout << "Ð’ ÑÐ»Ð¾Ð²Ð°Ñ€ÑŒ Ð±Ñ‹Ð»Ð¸ Ð²Ð½ÐµÑÐµÐ½Ñ‹ Ð¸Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸Ñ. Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Y Ð¸Ð»Ð¸ y Ð´Ð»Ñ ÑÐ¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¸Ñ Ð¿ÐµÑ€ÐµÐ´ Ð²Ñ‹Ñ…Ð¾Ð´Ð¾Ð¼.\n";
+        cout << "Â ñëîâàðü áûëè âíåñåíû èçìåíåíèÿ. Ââåäèòå Y èëè y äëÿ ñîõðàíåíèÿ ïåðåä âûõîäîì.\n";
         cin >> ch;
         if (ch == 'Y' || ch == 'y')
         {
-            SaveDictionary(vocabularyFile, dictionary);
-            cout << "Ð˜Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸Ñ ÑÐ¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ñ‹. Ð”Ð¾ ÑÐ²Ð¸Ð´Ð°Ð½Ð¸Ñ.\n";
+            Save(vocabularyFile, dictionary);
+            cout << "Èçìåíåíèÿ ñîõðàíåíû. Äî ñâèäàíèÿ.\n";
         }
     }
 }

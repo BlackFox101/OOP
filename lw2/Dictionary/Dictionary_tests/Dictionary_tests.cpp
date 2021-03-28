@@ -5,19 +5,45 @@
 
 #include "../Dictionary/Dictionary.h"
 
-//SCENARIO("OpenFile")
-//{
-//	std::fstream file;
-//	REQUIRE(OpenFile(file, "Dictionary.txt"));
-//}
+SCENARIO("OpenFile")
+{
+	std::fstream file;
+	REQUIRE(OpenFile(file, "test_dict.txt"));
+}
 
-//SCENARIO(Init Dictionary)
-//{
-//	/*std::istringstream input("1 line");
-//	THEN("output stream contains the line reversed")
-//	{
-//		ReverseLines(input, output);*/
-//	std::istringstream input("home-дом");
-//	map<string, string> dictionary;
-//	REQUIRE(InitDictionary(input, dictionary));
-//}
+SCENARIO("Init Dictionary")
+{
+	std::fstream file;
+	REQUIRE(OpenFile(file, "test_dict.txt"));
+
+	map<string, string> dictionary;
+	InitDictionary(file, dictionary);
+	REQUIRE(dictionary.size() == 1);
+	REQUIRE(dictionary.begin()->first == "home");
+	REQUIRE(dictionary.begin()->second == "дом");
+}
+
+SCENARIO("Init Dictionary")
+{
+	std::fstream file;
+	REQUIRE(OpenFile(file, "test_dict.txt"));
+
+	map<string, string> dictionary;
+	InitDictionary(file, dictionary);
+	REQUIRE(dictionary.size() == 1);
+	REQUIRE(dictionary.begin()->first == "home");
+	REQUIRE(dictionary.begin()->second == "дом");
+}
+
+SCENARIO("Working with dictionary")
+{
+	std::fstream file;
+	REQUIRE(OpenFile(file, "test_dict.txt"));
+
+	map<string, string> dictionary;
+	InitDictionary(file, dictionary);
+	REQUIRE(dictionary.size() == 1);
+	REQUIRE(dictionary.begin()->first == "home");
+	REQUIRE(dictionary.begin()->second == "дом");
+	WorkingDictionary()
+}
