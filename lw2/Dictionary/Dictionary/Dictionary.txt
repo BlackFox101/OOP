@@ -1,0 +1,7 @@
+﻿apple-яблоко
+book-книга
+cat-кот, кошка
+dog-собака
+home-дом
+red-красный
+the red square-Красная площадь
