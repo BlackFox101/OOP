@@ -1,32 +1,76 @@
+#include <iostream>
 #include <string>
+#include <map>
 
-std::string StringReplacer(std::string const& string, std::string searchString, std::string replaceString)
+using namespace std;
+
+void HtmlEntityToChar(string& str, const string& htmlEntity)
 {
-	if (searchString == "" || searchString == replaceString)
+	map<string, char> dictionary = {
+		{"&quot;", '\"'},
+		{"&apos;", '’'},
+		{"&lt;", '<'},
+		{"&gt;", '>'},
+		{"&amp;", '&'}
+	};
+
+	if (dictionary.find(htmlEntity) != dictionary.end())
 	{
-		return string;
+		str.push_back(dictionary[htmlEntity]);
 	}
+	else
+	{
+		str.append(htmlEntity);
+	}
+}
 
-	std::string str = string;
+string HtmlDecode(string const& html)
+{
+	string str;
+	string htmlEntity;
+	bool find = false;
 
-	size_t pos = str.find(searchString);
-	while (pos != std::string::npos) {
-		str.replace(pos, searchString.size(), replaceString);
-		pos = str.find(searchString, pos);
+	for (char ch : html)
+	{
+		if (ch == '&')
+		{
+			if (find)
+			{
+				str.append(htmlEntity);
+				htmlEntity = "";
+			}
+			find = true;
+		}
+
+		if (find)
+		{
+			htmlEntity.push_back(ch);
+		}
+		else 
+		{
+			str.push_back(ch);
+		}
+
+		if (find && ch == ';')
+		{
+			HtmlEntityToChar(str, htmlEntity);
+			htmlEntity = "";
+			find = false;
+		}
 	}
 
 	return str;
 }
 
-std::string HtmlDecode(std::string const& html)
+void HtmlDecodeLines(istream& input, ostream& output)
 {
-	std::string HtmlDecoded = html;
-
-	HtmlDecoded = StringReplacer(HtmlDecoded, "&quot;", "\"");
-	HtmlDecoded = StringReplacer(HtmlDecoded, "&apos;", "’");
-	HtmlDecoded = StringReplacer(HtmlDecoded, "&lt;", "<");
-	HtmlDecoded = StringReplacer(HtmlDecoded, "&gt;", ">");
-	HtmlDecoded = StringReplacer(HtmlDecoded, "&amp;", "&");
-
-	return HtmlDecoded;
+	string line;
+	while (getline(input, line))
+	{
+		output << HtmlDecode(line);
+		if (input.good())
+		{
+			output << "\n";
+		}
+	}
 }

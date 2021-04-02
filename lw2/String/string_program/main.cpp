@@ -1,9 +1,12 @@
 #include <iostream>
+#include <string>
+
+#include "html_decode.h"
 
 // HTML Decode 
 int main()
 {
-    std::string HtmlDecode(std::string const& html);
+    HtmlDecode("Cat &lt;says&gt; &quot;Meow&quot;. M&amp;M&apos;s");
 
     return 0;
 }
