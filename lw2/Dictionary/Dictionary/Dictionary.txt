@@ -1,8 +1,13 @@
 apple-яблоко
+blue-Синий
 book-книга
+car-Машина
 cat-кот, кошка
 dog-собака
 fish-Рыба
+fly-летать
+hello-привет
 home-дом
 red-красный
 the red square-Красная площадь
+work-Работа

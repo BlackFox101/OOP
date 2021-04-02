@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <Windows.h>
 #define CATCH_CONFIG_MAIN
 #include "../../../catch2/catch.hpp"
 
@@ -23,7 +24,18 @@ SCENARIO("Init Dictionary")
 	REQUIRE(dictionary.begin()->second == "дом");
 }
 
-SCENARIO("Init Dictionary")
+SCENARIO("SaveWorld")
+{
+	std::istringstream input("Привет");
+	map<string, string> dictionary;
+	bool wasChange;
+	SaveWord(dictionary, "Hello", wasChange, input);
+	REQUIRE(dictionary.size() == 1);
+	REQUIRE(dictionary.begin()->first == "Hello");
+	REQUIRE(dictionary.begin()->second == "Привет");
+}
+
+SCENARIO("TranslateWord")
 {
 	std::fstream file;
 	REQUIRE(OpenFile(file, "test_dict.txt"));
@@ -33,10 +45,17 @@ SCENARIO("Init Dictionary")
 	REQUIRE(dictionary.size() == 1);
 	REQUIRE(dictionary.begin()->first == "home");
 	REQUIRE(dictionary.begin()->second == "дом");
+
+	std::ostringstream output("");
+	TranslateWord("home", dictionary, output);
+	REQUIRE(output.str() == "дом\n");
 }
 
 SCENARIO("Working with dictionary")
 {
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
+
 	std::fstream file;
 	REQUIRE(OpenFile(file, "test_dict.txt"));
 
@@ -45,5 +64,6 @@ SCENARIO("Working with dictionary")
 	REQUIRE(dictionary.size() == 1);
 	REQUIRE(dictionary.begin()->first == "home");
 	REQUIRE(dictionary.begin()->second == "дом");
-	WorkingDictionary()
+
+	WorkingDictionary(file, dictionary);
 }

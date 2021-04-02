@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include "Dictionary.h"
 
 using namespace std;
 
@@ -23,6 +24,10 @@ void InitDictionary(fstream& initFile, map<string, string>& dictionary)
     string line;
     while (getline(initFile, line))
     {
+        if (line.find("-") == std::string::npos)
+        {
+            break;;
+        }
         string eng = line.substr(0, line.find("-"));
         string rus = line.substr(eng.length() + 1);
 
@@ -30,15 +35,15 @@ void InitDictionary(fstream& initFile, map<string, string>& dictionary)
     }
 }
 
-void SaveDictionary(fstream& vocabularyFile, map<string, string> dictionary)
+void SaveDictionary(fstream& vocabularyFile, const map<string, string>& dictionary)
 {
-    map<string, string>::iterator it;
+    map<string, string>::const_iterator it;
     for (it = dictionary.begin(); it != dictionary.end(); ++it) {
         vocabularyFile << it->first << "-" << it->second << endl;
     }
 }
 
-void Save(fstream& vocabularyFile, map<string, string> dictionary)
+void Save(fstream& vocabularyFile, const map<string, string>& dictionary)
 {
     if (vocabularyFile.is_open())
     {
@@ -50,13 +55,45 @@ void Save(fstream& vocabularyFile, map<string, string> dictionary)
     }
 
     fstream output;
-    output.open("Dictionary.txt");
-    if (!output.is_open())
+    while (true)
     {
-        cout << "Failed to open 'Dictionary.txt' for writing\n";
-        return;
+        cout << "¬ведите место дл€ сохранени€ файла:";
+        string path;
+        cin >> path;
+        output.open(path);
+
+        if (!output.is_open())
+        {
+            cout << "Failed to open '"<< path <<"' for writing\n";
+            continue;
+        }
+        break;
     }
+    
     SaveDictionary(output, dictionary);
+}
+
+bool SaveWord(map<string, string>& dictionary, const string& word, bool& wasChange, istream& input)
+{
+    string translation;
+    getline(input, translation);
+    if (translation != "")
+    {
+        dictionary[word] = translation;
+        wasChange = true;
+        return true;
+    }
+    return false;
+}
+
+bool TranslateWord(const string& word, map<string, string>& dictionary, ostream& output)
+{
+    if (dictionary.find(word) != dictionary.end())
+    {
+        output << dictionary[word] << endl;
+        return true;
+    }
+    return false;
 }
 
 void WorkingDictionary(fstream& vocabularyFile, map<string, string>& dictionary)
@@ -66,27 +103,20 @@ void WorkingDictionary(fstream& vocabularyFile, map<string, string>& dictionary)
     getline(cin, word);
     while (word != "...")
     {
-        string findWord = word;
-
+        string tempWord = word;
         transform(word.begin(), word.end(), word.begin(), tolower);
-        if (dictionary.find(word) != dictionary.end())
+
+        if (!TranslateWord(word, dictionary, cout))
         {
-            cout << dictionary[word] << endl;
-        }
-        else 
-        {
-            cout << "Ќеизвестное слово У"<< findWord <<"Ф. ¬ведите перевод или пустую строку дл€ отказа.\n";
-            string translation;
-            getline(cin, translation);
-            if (translation != "")
+            cout << "Ќеизвестное слово У" << tempWord << "Ф. ¬ведите перевод или пустую строку дл€ отказа.\n";
+            if (SaveWord(dictionary, word, wasChange, cin))
             {
-                dictionary[word] = translation;
-                cout << "—лово У" << findWord << "Ф сохранено в словаре как У" << translation << "Ф.\n";
+                cout << "—лово У" << tempWord << "Ф сохранено в словаре как У" << dictionary[word] << "Ф.\n";
                 wasChange = true;
             }
             else
             {
-                cout << "—лово У" << findWord << "Фпроигнорировано.\n";
+                cout << "—лово У" << tempWord << "Фпроигнорировано.\n";
             }
         }
         getline(cin, word);
