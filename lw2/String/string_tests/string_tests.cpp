@@ -45,6 +45,9 @@ SCENARIO("HTML Decode")
 	CHECK(HtmlDecode("&&lt;Hello&gt;") == "&<Hello>");
 
 	CHECK(HtmlDecode("Cat &lt;says&gt; &quot;Meow&quot;. M&amp;M&apos;s") == "Cat <says> \"Meow\". M&M’s");
+
+	CHECK(HtmlDecode("Cat &&asd&lt;says&gt;") == "Cat &&asd<says>");
+	CHECK(HtmlDecode("Cat &&asd; &lt;says&gt;") == "Cat &&asd; <says>");
 }
 
 SCENARIO("HTML Decode lines")
