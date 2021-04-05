@@ -65,5 +65,5 @@ SCENARIO("Working with dictionary")
 	REQUIRE(dictionary.begin()->first == "home");
 	REQUIRE(dictionary.begin()->second == "дом");
 
-	WorkingDictionary(file, dictionary);
+	//WorkingDictionary(file, dictionary);
 }

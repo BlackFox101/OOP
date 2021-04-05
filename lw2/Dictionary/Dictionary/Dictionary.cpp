@@ -86,11 +86,11 @@ bool SaveWord(map<string, string>& dictionary, const string& word, bool& wasChan
     return false;
 }
 
-bool TranslateWord(const string& word, map<string, string>& dictionary, ostream& output)
+bool TranslateWord(const string& word, const map<string, string>& dictionary, ostream& output)
 {
     if (dictionary.find(word) != dictionary.end())
     {
-        output << dictionary[word] << endl;
+        output << dictionary.at(word) << endl;
         return true;
     }
     return false;

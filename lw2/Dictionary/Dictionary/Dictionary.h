@@ -12,6 +12,6 @@ void InitDictionary(fstream& initFile, map<string, string>& dictionary);
 
 bool SaveWord(map<string, string>& dictionary, const string& word, bool& wasChange, istream& input);
 
-bool TranslateWord(const string& word, map<string, string>& dictionary, ostream& output);
+bool TranslateWord(const string& word, const map<string, string>& dictionary, ostream& output);
 
 void WorkingDictionary(fstream& vocabularyFile, map<string, string>& dictionary);

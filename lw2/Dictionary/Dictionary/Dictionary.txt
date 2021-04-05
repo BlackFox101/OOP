@@ -10,4 +10,5 @@ hello-привет
 home-дом
 red-красный
 the red square-Красная площадь
+white-белый
 work-Работа
