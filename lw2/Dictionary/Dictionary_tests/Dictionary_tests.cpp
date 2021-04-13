@@ -28,8 +28,7 @@ SCENARIO("SaveWorld")
 {
 	std::istringstream input("Привет");
 	map<string, string> dictionary;
-	bool wasChange;
-	SaveWord(dictionary, "Hello", wasChange, input);
+	SaveWord(dictionary, "Hello", input);
 	REQUIRE(dictionary.size() == 1);
 	REQUIRE(dictionary.begin()->first == "Hello");
 	REQUIRE(dictionary.begin()->second == "Привет");

@@ -1,4 +1,5 @@
 apple-яблоко
+black-Черный
 blue-Синий
 book-книга
 car-Машина
@@ -8,6 +9,7 @@ fish-Рыба
 fly-летать
 hello-привет
 home-дом
+orange-Оранжевый
 red-красный
 the red square-Красная площадь
 white-белый

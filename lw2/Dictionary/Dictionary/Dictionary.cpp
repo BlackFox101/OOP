@@ -73,19 +73,6 @@ void Save(fstream& vocabularyFile, const map<string, string>& dictionary)
     SaveDictionary(output, dictionary);
 }
 
-bool SaveWord(map<string, string>& dictionary, const string& word, bool& wasChange, istream& input)
-{
-    string translation;
-    getline(input, translation);
-    if (translation != "")
-    {
-        dictionary[word] = translation;
-        wasChange = true;
-        return true;
-    }
-    return false;
-}
-
 bool TranslateWord(const string& word, const map<string, string>& dictionary, ostream& output)
 {
     if (dictionary.find(word) != dictionary.end())
@@ -96,10 +83,22 @@ bool TranslateWord(const string& word, const map<string, string>& dictionary, os
     return false;
 }
 
+bool SaveWord(map<string, string>& dictionary, const string& word, istream& input)
+{
+    string translation;
+    getline(input, translation);
+    if (translation != "")
+    {
+        dictionary[word] = translation;
+        return true;
+    }
+    return false;
+}
+
 void WorkingDictionary(fstream& vocabularyFile, map<string, string>& dictionary)
 {
+    const int initialNumberElements = dictionary.size();
     string word;
-    bool wasChange = false;
     getline(cin, word);
     while (word != "...")
     {
@@ -109,10 +108,9 @@ void WorkingDictionary(fstream& vocabularyFile, map<string, string>& dictionary)
         if (!TranslateWord(word, dictionary, cout))
         {
             cout << "Ќеизвестное слово У" << tempWord << "Ф. ¬ведите перевод или пустую строку дл€ отказа.\n";
-            if (SaveWord(dictionary, word, wasChange, cin))
+            if (SaveWord(dictionary, word, cin))
             {
                 cout << "—лово У" << tempWord << "Ф сохранено в словаре как У" << dictionary[word] << "Ф.\n";
-                wasChange = true;
             }
             else
             {
@@ -122,7 +120,7 @@ void WorkingDictionary(fstream& vocabularyFile, map<string, string>& dictionary)
         getline(cin, word);
     }
 
-    if (wasChange)
+    if (initialNumberElements != dictionary.size())
     {
         char ch;
         cout << "¬ словарь были внесены изменени€. ¬ведите Y или y дл€ сохранени€ перед выходом.\n";
