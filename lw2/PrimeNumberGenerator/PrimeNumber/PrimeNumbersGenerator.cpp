@@ -6,11 +6,11 @@ set<int> CreatePrimeNumberSet(const vector<bool>& wasPrimeVector)
 {
 	set<int> primeNumbers;
 	int number = 1;
-	for (auto const& wasPrime : wasPrimeVector)
+	for (bool wasPrime : wasPrimeVector)
 	{
 		if (wasPrime)
 		{
-			primeNumbers.insert(number);
+			primeNumbers.insert(primeNumbers.end(), number);
 		}
 		++number;
 	}
@@ -21,9 +21,12 @@ set<int> CreatePrimeNumberSet(const vector<bool>& wasPrimeVector)
 vector<bool> CreateWasPrimeVector(int upperBound)
 {
 	vector<bool> wasPrimeVector(upperBound, true);
-	wasPrimeVector[0] = false;
+	wasPrimeVector[0] = false; 
 
-	for (size_t i = 0; i < wasPrimeVector.size(); ++i)
+	//      i: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+	// number: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+
+	for (size_t i = 1; i < wasPrimeVector.size(); ++i)
 	{
 		if (wasPrimeVector[i])
 		{
