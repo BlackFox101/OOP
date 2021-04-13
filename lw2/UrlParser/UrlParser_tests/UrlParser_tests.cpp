@@ -7,27 +7,22 @@
 SCENARIO("getPort")
 {
 	Protocol protocol = Protocol::HTTP;
-	CHECK(getPort(protocol) == 80);
+	CHECK(GetPort(protocol) == 80);
 
 	protocol = Protocol::HTTPS;
-	CHECK(getPort(protocol) == 443);
+	CHECK(GetPort(protocol) == 443);
 
 	protocol = Protocol::FTP;
-	CHECK(getPort(protocol) == 21);
-
-	protocol = Protocol::NOT_DEFINED;
-	CHECK(getPort(protocol) == -1);
+	CHECK(GetPort(protocol) == 21);
 }
 
 SCENARIO("getProtocol")
 {
-	CHECK(getProtocol("http") == Protocol::HTTP);
+	CHECK(GetProtocol("http") == Protocol::HTTP);
 
-	CHECK(getProtocol("https") == Protocol::HTTPS);
+	CHECK(GetProtocol("https") == Protocol::HTTPS);
 
-	CHECK(getProtocol("ftp") == Protocol::FTP);
-
-	CHECK(getProtocol("ftasfsafp") == Protocol::NOT_DEFINED);
+	CHECK(GetProtocol("ftp") == Protocol::FTP);
 }
 
 SCENARIO("ParseURL and output")
@@ -42,5 +37,8 @@ SCENARIO("ParseURL and output")
 	std::ostringstream output;
 	OuputUrlParse(output, url, port, host, document);
 
-	REQUIRE(output.str() == url +"\nHOST: www.mysite.com\nPORT: 24\nDOC: docs/document1.html?page=30&lang=en#title\n");
+	REQUIRE(output.str() == url + "\n" + 
+		"HOST: www.mysite.com\n"+
+		"PORT: 24\n"+
+		"DOC: docs/document1.html?page=30&lang=en#title\n");
 }

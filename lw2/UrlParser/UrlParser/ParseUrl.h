@@ -10,14 +10,13 @@ enum class Protocol
 {
 	HTTP,
 	HTTPS,
-	FTP,
-	NOT_DEFINED
+	FTP
 };
 
-int getPort(Protocol protocol);
+int GetPort(Protocol protocol);
 
-Protocol getProtocol(const string& protocol);
+Protocol GetProtocol(const string& protocol);
 
 bool ParseURL(string const& url, Protocol& protocol, int& port, string& host, string& document);
 
-void OuputUrlParse(ostream& output, string const& url, int port, const string& host, const string& document);
+void OuputUrlParse(ostream& output, string const& url, const int port, const string& host, const string& document);

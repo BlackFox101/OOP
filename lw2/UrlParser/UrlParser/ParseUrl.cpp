@@ -2,17 +2,8 @@
 
 using namespace std;
 
-struct URLArgs
-{
-	string protocol;
-	string host;
-	string port;
-	string document;
-};
-
 bool ParseURL(string const& url, Protocol& protocol, int& port, string& host, string& document)
 {
-	URLArgs urlArgs;
 	smatch result;
 	regex regular("(([Hh][Tt][Tt][Pp][Ss]?|[Ff][Tt][Pp])"
 		"(://)"
@@ -21,31 +12,32 @@ bool ParseURL(string const& url, Protocol& protocol, int& port, string& host, st
 		"(\/)"
 		"(.+))");
 
+	string stringPort;
 	if (regex_match(url, result, regular))
 	{
-		urlArgs.protocol = result[2];
-		urlArgs.host = result[4];
-		urlArgs.port = result[5];
-		urlArgs.document = result[7];
+		protocol = GetProtocol(result[2]);
+		host = result[4];
+		stringPort = result[5];
+		document = result[7];
 	}
 	else
 	{
 		return false;
 	}
 
-	port = stoi(urlArgs.port.substr(1, urlArgs.port.length()));
-	protocol = getProtocol(urlArgs.protocol);
-	if (empty(urlArgs.port))
+	if (empty(stringPort))
 	{
-		port = getPort(protocol);
+		port = GetPort(protocol);
 	}
-	host = urlArgs.host;
-	document = urlArgs.document;
+	else
+	{
+		port = stoi(stringPort.substr(1, stringPort.length()));
+	}
 
 	return true;
 }
 
-Protocol getProtocol(const string& protocol)
+Protocol GetProtocol(const string& protocol)
 {
 	string tempStr = protocol;
 	transform(tempStr.begin(), tempStr.end(), tempStr.begin(), ::tolower);
@@ -61,10 +53,9 @@ Protocol getProtocol(const string& protocol)
 	{
 		return Protocol::FTP;
 	}
-	return Protocol::NOT_DEFINED;
 }
 
-int getPort(Protocol protocol)
+int GetPort(Protocol protocol)
 {
 	switch (protocol)
 	{
@@ -74,12 +65,10 @@ int getPort(Protocol protocol)
 		return 443;
 	case Protocol::FTP:
 		return 21;
-	default:
-		return -1;
 	}
 }
 
-void OuputUrlParse(ostream& output, string const& url, int port, const string& host, const string& document)
+void OuputUrlParse(ostream& output, string const& url, const int port, const string& host, const string& document)
 {
 	output << url << endl;
 	output << "HOST: " << host << endl;

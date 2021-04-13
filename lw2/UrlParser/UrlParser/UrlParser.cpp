@@ -10,7 +10,6 @@ int main()
 	std::string host;
 	std::string document;
 
-	ParseURL(url, protocol, port, host, document);
 	if (ParseURL(url, protocol, port, host, document))
 	{
 		OuputUrlParse(cout, url, port, host, document);
