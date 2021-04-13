@@ -6,7 +6,7 @@
 // HTML Decode 
 int main()
 {
-    HtmlDecode("Cat &lt;says&gt; &quot;Meow&quot;. M&amp;M&apos;s");
+    HtmlDecodeLines(std::cin, std::cout);
 
     return 0;
 }
