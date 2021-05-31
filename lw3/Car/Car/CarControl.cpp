@@ -113,15 +113,12 @@ Commands GetCommand(const string& str)
 	{
 		return Commands::Exit;
 	}
-	else
-	{
-		return Commands::Unknown;
-	}
+	return Commands::Unknown;
 }
 
-bool CarControl::Run—ommand(Commands command, int value)
+bool CarControl::Run—ommand(optional<CommandData> data)
 {
-	switch (command)
+	switch (data->command)
 	{
 	case Commands::Info:
 		CarControl::Info();
@@ -133,10 +130,10 @@ bool CarControl::Run—ommand(Commands command, int value)
 		CarControl::EngineOff();
 		return true;
 	case Commands::SetGear:
-		CarControl::SetGear(value);
+		CarControl::SetGear(data->value);
 		return true;
 	case Commands::SetSpeed:
-		CarControl::SetSpeed(value);
+		CarControl::SetSpeed(data->value);
 		return true;
 	default:
 		return false;
@@ -158,6 +155,11 @@ bool StringToInt(const string& str, int& number)
 	catch (const out_of_range&)
 	{
 		cout << "The number is out of range(int)\n";
+		return false;
+	}
+	catch (const invalid_argument&)
+	{
+		cout << "Invalid argument\n";
 		return false;
 	}
 

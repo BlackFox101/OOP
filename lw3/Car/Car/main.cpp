@@ -7,7 +7,6 @@ int main()
 {
     Car car;
     CarControl control(car, std::cout);
-    string line;
     while (true)
     {
         auto commandData = GetCommandData();
@@ -17,7 +16,7 @@ int main()
             break;
         }
 
-        if (!control.Run—ommand(commandData->command, commandData->value))
+        if (!control.Run—ommand(commandData))
         {
             cout << "Command not found\n";
         }

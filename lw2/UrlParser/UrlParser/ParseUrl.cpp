@@ -8,7 +8,7 @@ bool ParseURL(string const& url, Protocol& protocol, int& port, string& host, st
 	regex regular("(([Hh][Tt][Tt][Pp][Ss]?|[Ff][Tt][Pp])"
 		"(://)"
 		"([\da-z\.-]+)"
-		"(:[0-9]{1,5})?"
+		"(:[0-9]{0,})?"
 		"(\/)"
 		"(.+))");
 

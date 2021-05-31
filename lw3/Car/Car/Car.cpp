@@ -9,7 +9,7 @@ struct SpeedRange
 	int max;
 };
 
-std::map<int, SpeedRange> gearSpeed = {
+map<int, SpeedRange> gearSpeed = {
 	{-1, {0, 20}},
 	{0, {0, 150}},
 	{1, {0, 30}},

@@ -31,7 +31,7 @@ class CarControl
 public:
 	CarControl(Car& car, ostream& output);
 
-	bool Run—ommand(Commands command, int value);
+	bool Run—ommand(optional<CommandData> data);
 
 	bool EngineOn();
 	bool EngineOff();
