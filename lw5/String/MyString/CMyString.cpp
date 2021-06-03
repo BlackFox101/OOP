@@ -131,6 +131,11 @@ CMyString operator+(const CMyString& left, const CMyString& right)
 
 bool operator==(const CMyString& left, const CMyString& right)
 {
+	if (left.GetLength() != right.GetLength())
+	{
+		return false;
+	}
+
 	const char* leftStr = left.GetStringData();
 	const char* rightStr = right.GetStringData();
 
