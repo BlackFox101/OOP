@@ -5,23 +5,22 @@ using namespace std;
 
 int main()
 {
-    CMyArray<string> strings(3, "hello");
+    CMyArray<int> vector;
+	//cout << "size: " << vector.GetSize() << endl;
+	//cout << "vector[0]: " << vector[0] << endl;
+	vector.PushBack(1);
+	vector.PushBack(2);
+	vector.PushBack(3);
 
-	cout << "size = " << strings.GetSize() << endl;
-	for (size_t i = 0; i < strings.GetSize(); i++)
+	CMyArray<int>::iterator it;
+	//CMyArray<int>::const_iterator it1;
+	/*it = vector.begin();
+	cout << *it << endl;
+	it = vector.end() - 1;
+	cout << *it << endl;*/
+	
+	for (it = vector.begin(); it != vector.end(); it++)
 	{
-		cout << i << ": " << strings[i] << endl;
+		cout << *it << endl;
 	}
-	strings.Resize(4);
-	cout << "size = " << strings.GetSize() << endl;
-	for (size_t i = 0; i < strings.GetSize(); i++)
-	{
-		cout << i << ": " << strings[i] << endl;
-	}
-
-	/*CMyArray<double> numbers(3, 3.14);
-	for (size_t i = 0; i < numbers.GetSize(); i++)
-	{
-		cout << i << ": " << numbers[i] << endl;
-	}*/
 }

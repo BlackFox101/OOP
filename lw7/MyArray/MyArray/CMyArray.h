@@ -8,6 +8,97 @@ using namespace std;
 template <typename T>
 class CMyArray
 {
+
+	template <bool IsConst>
+	class CIterator
+	{
+		friend class CIterator<true>;
+	public:
+		using Iterator = CIterator<IsConst>;
+		using value_type = std::conditional_t<IsConst, const T, T>;
+		using reference = value_type&;
+		using difference_type = ptrdiff_t;
+		using pointer = value_type*;
+		using difference_type = ptrdiff_t;
+		using iterator_category = std::random_access_iterator_tag;
+
+		CIterator() = default;
+		CIterator(const CIterator<false>& other)
+			: m_item(other.m_item)
+		{}
+
+		reference& operator*() const
+		{
+			return *m_item;
+		}
+
+		Iterator& operator+=(difference_type offset)
+		{
+			m_item += offset;
+			return *this;
+		}
+		Iterator& operator-=(difference_type offset)
+		{
+			m_item -= offset;
+			return *this;
+		}
+
+		Iterator operator+(difference_type offset)
+		{
+			Iterator temp(m_item);
+			return temp += offset;
+		}
+		Iterator operator-(difference_type offset)
+		{
+			Iterator temp(m_item);
+			return temp -= offset;
+		}
+
+		Iterator& operator++()
+		{
+			return *this+=1;
+		}
+		Iterator operator++(int)
+		{
+			return ++*this;
+		}
+		Iterator& operator--()
+		{
+			return *this-=1;
+		}
+		Iterator operator--(int)
+		{
+			return  --*this;
+		}
+
+		friend bool operator==(const Iterator& left, const Iterator& right)
+		{
+			return left.m_item == right.m_item;
+		}
+		friend bool operator!=(const Iterator& left, const Iterator& right)
+		{
+			return left.m_item != right.m_item;
+		}
+
+		friend Iterator operator+(difference_type offset, const Iterator& it)
+		{
+			return it + offset;
+		}
+		friend Iterator operator-(difference_type offset, const Iterator& it)
+		{
+			return it - offset;
+		}
+
+	public:
+		CIterator(T* item)
+			: m_item(item)
+		{
+		}
+
+	protected:
+		T* m_item = nullptr;
+	};
+
 public:
 	CMyArray()
 		: m_size(0)
@@ -17,6 +108,10 @@ public:
 		: m_size(size)
 	{
 		m_pArray = new T[m_size];
+		for (size_t i = 0; i < m_size; i++)
+		{
+			m_pArray[i] = T();
+		}
 	}
 	CMyArray(size_t size, const T& value)
 		: m_size(size)
@@ -64,7 +159,7 @@ public:
 			}
 			for (size_t i = m_size; i < size; i++)
 			{
-				temp[i] = DefaultValue();
+				temp[i] = T();
 			}
 			delete[] m_pArray;
 
@@ -120,7 +215,7 @@ public:
 
 	const T& operator[](size_t index) const
 	{
-		if (index > m_size)
+		if (index >= m_size)
 		{
 			throw out_of_range("Index out of range");
 		}
@@ -129,7 +224,7 @@ public:
 	}
 	T& operator[](size_t index)
 	{
-		if (index > m_size)
+		if (index >= m_size)
 		{
 			throw out_of_range("Index out of range");
 		}
@@ -137,28 +232,46 @@ public:
 		return m_pArray[index];
 	}
 
-	//friend class Iterator<T>;
-	//typedef class Iterator<T> iterator;
+	using iterator = CIterator<false>;
+	using const_iterator = CIterator<true>;
+	using const_reverse_iterator = reverse_iterator<const_iterator>;
+	using reverse_iterator = reverse_iterator<iterator>;
 
-	/*Iterator<T>begin();
-	Iterator<T>();
+	iterator begin()
+	{
+		return m_pArray;
+	}
+	iterator end()
+	{
+		return m_pArray + m_size;
+	}
+	const_iterator begin()const
+	{
+		return m_pArray;
+	}
+	const_iterator end() const
+	{
+		return m_pArray + m_size;
+	}
 
-	Iterator<T>rbegin();
-	Iterator<T>rend();*/
+	reverse_iterator rbegin()
+	{
+		return make_reverse_iterator(end());
+	}
+	reverse_iterator rend()
+	{
+		return make_reverse_iterator(begin());
+	}
+	const_reverse_iterator rbegin() const
+	{
+		return make_reverse_iterator(end());
+	}
+	const_reverse_iterator rend() const
+	{
+		return make_reverse_iterator(begin());
+	}
 
 private:
 	T* m_pArray;
 	size_t m_size;
-
-	T DefaultValue()
-	{
-		if (typeid(T) == typeid(int) || typeid(T) == typeid(double) || typeid(T) == typeid(float))
-		{
-			return 0;
-		}
-		if (typeid(T) == typeid(string))
-		{
-			return (T)"default";
-		}
-	}
 };

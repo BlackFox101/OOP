@@ -76,7 +76,6 @@ SCENARIO(" += ")
 	REQUIRE(str1.GetStringData() == "temp"s);
 }
 
-
 SCENARIO(" + ")
 {
 	CMyString str1("Hello");
