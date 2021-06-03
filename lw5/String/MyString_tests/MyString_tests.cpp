@@ -13,46 +13,52 @@ SCENARIO("Constructors")
 	{
 		CMyString str;
 		REQUIRE(str.GetLength() == 0);
-		REQUIRE(str.GetStringData() == ""s);
+		REQUIRE(str == "");
 	}
 	WHEN("Constructor that initializes a string with string data")
 	{
 		CMyString str("Hello");
 		REQUIRE(str.GetLength() == 5);
-		REQUIRE(str.GetStringData() == "Hello"s);
+		REQUIRE(str == "Hello");
 	}
 	WHEN("Constructor that initializes a string with data from a character array of a given length")
 	{
 		CMyString str("Hello", 3);
 		REQUIRE(str.GetLength() == 3);
-		REQUIRE(str.GetStringData() == "Hel"s);
+		REQUIRE(str == "Hel");
 	}
 	WHEN("Copy Constructor")
 	{
 		CMyString str1("Hello");
 		CMyString str2(str1);
 		REQUIRE(str2.GetLength() == 5);
-		REQUIRE(str2.GetStringData() == "Hello"s);
+		REQUIRE(str2 == "Hello");
 	}
 	WHEN("Constructor that initializes a string with data from a standard library string")
 	{
 		CMyString str2("Hello"s);
 		REQUIRE(str2.GetLength() == 5);
-		REQUIRE(str2.GetStringData() == "Hello"s);
+		REQUIRE(str2 == "Hello");
 	}
+}
+
+SCENARIO("GetStringData")
+{
+	CMyString str2 = "Hello";
+	REQUIRE(str2.GetStringData() == "Hello"s);
 }
 
 SCENARIO("SubString")
 {
 	CMyString str1("Hello");
 	CMyString str2 = str1.SubString(0, 5);
-	REQUIRE(str2.GetStringData() == "Hello"s);
+	REQUIRE(str2 == "Hello");
 
 	str2 = str1.SubString(1, 4);
-	REQUIRE(str2.GetStringData() == "ell"s);
+	REQUIRE(str2 == "ell");
 
 	str2 = str1.SubString(0, 0);
-	REQUIRE(str2.GetStringData() == ""s);
+	REQUIRE(str2 == "");
 }
 
 SCENARIO("Clear")
@@ -60,7 +66,7 @@ SCENARIO("Clear")
 	CMyString str("Hello");
 	str.Clear();
 	REQUIRE(str.GetLength() == 0);
-	REQUIRE(str.GetStringData() == ""s);
+	REQUIRE(str == "");
 }
 
 SCENARIO(" += ")
@@ -68,12 +74,12 @@ SCENARIO(" += ")
 	CMyString str1("Hello");
 	CMyString str2(" world!");
 	str1 += str2;
-	REQUIRE(str1.GetStringData() == "Hello world!"s);
-	REQUIRE(str2.GetStringData() == " world!"s);
+	REQUIRE(str1 == "Hello world!");
+	REQUIRE(str2 == " world!");
 
 	str1 = "";
 	str1 += "temp";
-	REQUIRE(str1.GetStringData() == "temp"s);
+	REQUIRE(str1 == "temp");
 }
 
 SCENARIO(" + ")
@@ -82,13 +88,13 @@ SCENARIO(" + ")
 	CMyString str2(" world!");
 
 	CMyString str = str1 + str2;
-	REQUIRE(str.GetStringData() == string("Hello world!"s));
+	REQUIRE(str == "Hello world!");
 
 	str = "Hello"s + str2;
-	REQUIRE(str.GetStringData() == string("Hello world!"));
+	REQUIRE(str == "Hello world!");
 
 	str = "Hello" + str2;
-	REQUIRE(str.GetStringData() == string("Hello world!"));
+	REQUIRE(str == "Hello world!");
 }
 
 SCENARIO(" String comparison ")

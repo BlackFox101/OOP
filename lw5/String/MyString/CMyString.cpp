@@ -156,7 +156,7 @@ bool operator<(const CMyString& left, const CMyString& right)
 }
 bool operator>(const CMyString& left, const CMyString& right)
 {
-	return right < left;
+	return right < left && left != right;
 }
 
 bool operator<=(const CMyString& left, const CMyString& right)
