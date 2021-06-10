@@ -7,6 +7,11 @@
 
 using namespace std;
 
+// тест по < не проходит при !(zubra < zebr);
+// Утечки памяти при subString, operator+=,
+// При + двойное копирование
+// Clear
+
 SCENARIO("Constructors")
 {
 	WHEN("Default constructor")
@@ -162,11 +167,6 @@ SCENARIO(" < ")
 
 	CHECK(!(str1 < str2));
 }
-
-// тест по < не проходит при !(zubra < zebr);
-// Утечки памяти при subString, operator+=,
-// При + двойное копирование
-// Clear
 
 SCENARIO(" [] ")
 {

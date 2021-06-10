@@ -24,6 +24,7 @@ public:
 	CMyString& operator+=(const CMyString& other);
 	const char& operator[](size_t index) const;
 	char& operator[](size_t index);
+	friend  CMyString operator+(const CMyString& left, const CMyString& right);
 
 private:
 

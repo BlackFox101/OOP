@@ -10,6 +10,9 @@
 #include <cmath>
 
 // TODO RENAME
+// Передавать разные x и y 
+// Передать цвет разный
+
 SCENARIO("Create CTriangle and return arguments")
 {
 	CTriangle triangle({ -1, 1 }, { -1, -1 }, { 1, -1 }, 0x000000, 0xFFFFFF);

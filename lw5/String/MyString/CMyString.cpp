@@ -103,17 +103,17 @@ CMyString& CMyString::operator+=(const CMyString& other)
 	tempString.m_pString = new char[newLength + 1];
 
 	size_t i = 0;
-	for (; i < tempString.m_length; i++)
+	for (; i < m_length; i++)
 	{
-		m_pString[i] = tempString.m_pString[i];
+		tempString[i] = m_pString[i];
 	}
 	for (size_t j = 0; j < other.m_length && i < newLength; i++, j++)
 	{
-		m_pString[i] = other.m_pString[j];
+		tempString[i] = other.m_pString[j];
 	}
 
-	swap(m_pString, tempString.m_pString);
-	swap(m_length, tempString.m_length);
+	swap(tempString.m_pString, m_pString);
+	swap(tempString.m_length, m_length);
 
 	m_pString[newLength] = '\0';
 
@@ -122,11 +122,23 @@ CMyString& CMyString::operator+=(const CMyString& other)
 
 CMyString operator+(const CMyString& left, const CMyString& right)
 {
-	CMyString tempString;
 	size_t newLength = left.GetLength() + right.GetLength();
 
-	/*tempString.m_length = newLength;
-	return "";*/
+	CMyString tempString;
+	tempString.m_length = newLength;
+	tempString.m_pString = new char[newLength + 1];
+	size_t i = 0;
+	for (; i < left.m_length; i++)
+	{
+		tempString[i] = left.m_pString[i];
+	}
+	for (size_t j = 0; j < right.m_length && i < newLength; i++, j++)
+	{
+		tempString[i] = right.m_pString[j];
+	}
+	tempString.m_pString[newLength] = '\0';
+
+	return tempString;
 }
 
 bool operator==(const CMyString& left, const CMyString& right)

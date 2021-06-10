@@ -5,7 +5,7 @@ using namespace std;
 
 void ShapeController::PushShape(shared_ptr<IShape> shape)
 {
-	m_shapes.push_back(shape);
+	m_shapes.push_back(move(shape));
 }
 
 shared_ptr<CTriangle> ShapeController::CreateTriangle(stringstream& shapeStream) const
@@ -109,7 +109,7 @@ void ShapeController::PrintShapeInfoWithLargestArea(ostream& output) const
 		return;
 	}
 
-	auto maxAreaShape = std::max_element(m_shapes.begin(), m_shapes.end(), [](shared_ptr<IShape> left, shared_ptr<IShape> right) {
+	auto maxAreaShape = std::max_element(m_shapes.begin(), m_shapes.end(), [](const auto& left, const auto& right) {
 		return left->GetArea() < right->GetArea();
 	});
 	
@@ -124,7 +124,7 @@ void ShapeController::PrintShapeInfoWithSmallestPerimeter(ostream& output) const
 		return;
 	}
 
-	auto minPerimeterShape = std::min_element(m_shapes.begin(), m_shapes.end(), [](const shared_ptr<IShape>& left, const shared_ptr<IShape>& right) {
+	auto minPerimeterShape = std::min_element(m_shapes.begin(), m_shapes.end(), [](const auto& left, const auto& right) {
 		return left->GetPerimeter() < right->GetPerimeter();
 	});
 	output << "Shape with smallest perimeter:\n";
