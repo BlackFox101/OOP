@@ -155,6 +155,10 @@ SCENARIO(" String comparison ")
 	}
 }
 
+// тест по < не проходит при !(zubra < zebr);
+// Утечки памяти при subString, operator+=,
+// При + двойное копирование
+
 SCENARIO(" [] ")
 {
 	WHEN(" [] ")

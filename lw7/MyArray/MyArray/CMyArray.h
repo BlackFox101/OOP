@@ -5,6 +5,12 @@
 
 using namespace std;
 
+// TODO: memcpy нельзя
+// утечки памяти
+// Вместимость
+// добавить тест push back array.push_back(array[i]);
+// Проверить массив с длинныи строками
+
 template <typename T>
 class CMyArray
 {
