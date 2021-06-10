@@ -15,7 +15,8 @@ int main()
     {
 		try
 		{
-			shapeController.PushShape(line);
+			auto shape = shapeController.CreateShape(line);
+			shapeController.PushShape(shape);
 			cout << "The shape was saved successfully\n";
 		}
 		catch (const std::exception& e)

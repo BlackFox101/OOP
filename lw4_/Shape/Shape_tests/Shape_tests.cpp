@@ -79,27 +79,27 @@ SCENARIO("PushShape to controller")
 	WHEN("OK")
 	{
 		str = "rectangle 10.3 20.15 30.7 40.4 ff0000 00ff00";
-		CHECK_NOTHROW(shapeController.PushShape(str));
+		CHECK_NOTHROW(shapeController.CreateShape(str));
 
 		str = "triangle -1 1 -1 -1 1 -1 ff0000 00ff00";
-		CHECK_NOTHROW(shapeController.PushShape(str));
+		CHECK_NOTHROW(shapeController.CreateShape(str));
 
 		str = "circle 0 0 2 ff0000 00ff00";
-		CHECK_NOTHROW(shapeController.PushShape(str));
+		CHECK_NOTHROW(shapeController.CreateShape(str));
 
 		str = "line 0 1 1 1 ff0000 00ff00";
-		CHECK_NOTHROW(shapeController.PushShape(str));
+		CHECK_NOTHROW(shapeController.CreateShape(str));
 	}
 	WHEN("Not enough arguments")
 	{
 		str = "rectangle 20.15 30.7 40.4 ff0000 00ff00";
-		CHECK_THROWS(shapeController.PushShape(str));
+		CHECK_THROWS(shapeController.CreateShape(str));
 	}
 	WHEN("Unknown figure")
 	{
 		
 		str = "cub 20.15 30.7 40.4 ff0000 00ff00";
-		CHECK_THROWS(shapeController.PushShape(str));
+		CHECK_THROWS(shapeController.CreateShape(str));
 	}
 }
 
@@ -108,8 +108,10 @@ SCENARIO("Get neccesary shapes")
 	WHEN("ok")
 	{
 		ShapeController shapeController;
-		shapeController.PushShape("rectangle 10.3 20.15 30.7 40.4 ff0000 00ff00");
-		shapeController.PushShape("triangle -1 1 -1 -1 1 -1 ff0000 00ff00");
+		auto shape = shapeController.CreateShape("rectangle 10.3 20.15 30.7 40.4 ff0000 00ff00");
+		shapeController.PushShape(shape);
+		shape = shapeController.CreateShape("triangle -1 1 -1 -1 1 -1 ff0000 00ff00");
+		shapeController.PushShape(shape);
 
 		std::ostringstream output1;
 		shapeController.PrintShapeInfoWithLargestArea(output1);

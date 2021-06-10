@@ -3,36 +3,12 @@
 
 using namespace std;
 
-void ShapeController::PushShape(std::string str)
+void ShapeController::PushShape(shared_ptr<IShape> shape)
 {
-	stringstream shapeStream;
-	shapeStream << str;
-
-	string shapeName;
-	shapeStream >> shapeName;
-	if (shapeName == "triangle")
-	{
-		m_shapes.push_back(GetTriangle(shapeStream));
-	}
-	else if (shapeName == "rectangle")
-	{
-		m_shapes.push_back(GetRectangle(shapeStream));
-	}
-	else if (shapeName == "circle")
-	{
-		m_shapes.push_back(GetCircle(shapeStream));
-	}
-	else if (shapeName == "line")
-	{
-		m_shapes.push_back(GetLineSegment(shapeStream));
-	}
-	else
-	{
-		throw invalid_argument("Unknown figure");
-	}
+	m_shapes.push_back(shape);
 }
 
-shared_ptr<CTriangle> ShapeController::GetTriangle(stringstream& shapeStream)
+shared_ptr<CTriangle> ShapeController::CreateTriangle(stringstream& shapeStream) const
 {
 	vector<CPoint> trianglePoints;
 	for (size_t i = 0; i < 3; i++)
@@ -52,7 +28,7 @@ shared_ptr<CTriangle> ShapeController::GetTriangle(stringstream& shapeStream)
 	{
 		throw invalid_argument("Not enough arguments");
 	}
-	// TODO: побитовый сдвиг
+
 	uint32_t outlineColour = GetColor(outlineStringColour);
 	uint32_t fillColour = GetColor(fillStringColour);
 
@@ -61,7 +37,7 @@ shared_ptr<CTriangle> ShapeController::GetTriangle(stringstream& shapeStream)
 	return make_shared<CTriangle>(triangle);
 }
 
-shared_ptr<CRectangle> ShapeController::GetRectangle(std::stringstream& shapeStream)
+shared_ptr<CRectangle> ShapeController::CreateRectangle(std::stringstream& shapeStream) const
 {
 	double x, y, width, height;
 	string outlineStringColour, fillStringColour;
@@ -79,7 +55,7 @@ shared_ptr<CRectangle> ShapeController::GetRectangle(std::stringstream& shapeStr
 	return make_shared<CRectangle>(rectangle);
 }
 
-shared_ptr<CCircle> ShapeController::GetCircle(std::stringstream& shapeStream)
+shared_ptr<CCircle> ShapeController::CreateCircle(std::stringstream& shapeStream) const
 {
 	double x, y, radius;
 	string outlineStringColour, fillStringColour;
@@ -96,7 +72,7 @@ shared_ptr<CCircle> ShapeController::GetCircle(std::stringstream& shapeStream)
 	return make_shared<CCircle>(circle);
 }
 
-shared_ptr<CLineSegment> ShapeController::GetLineSegment(std::stringstream& shapeStream)
+shared_ptr<CLineSegment> ShapeController::CreateLineSegment(std::stringstream& shapeStream) const
 {
 	double x1, y1, x2, y2;
 	string outlineStringColour;
@@ -112,7 +88,7 @@ shared_ptr<CLineSegment> ShapeController::GetLineSegment(std::stringstream& shap
 	return make_shared<CLineSegment>(line);
 }
 
-uint32_t ShapeController::GetColor(string colorAsString)
+uint32_t ShapeController::GetColor(const string& colorAsString) const
 {
 	try
 	{
@@ -148,9 +124,38 @@ void ShapeController::PrintShapeInfoWithSmallestPerimeter(ostream& output) const
 		return;
 	}
 
-	auto minPerimeterShape = std::min_element(m_shapes.begin(), m_shapes.end(), [](shared_ptr<IShape> left, shared_ptr<IShape> right) {
+	auto minPerimeterShape = std::min_element(m_shapes.begin(), m_shapes.end(), [](const shared_ptr<IShape>& left, const shared_ptr<IShape>& right) {
 		return left->GetPerimeter() < right->GetPerimeter();
 	});
 	output << "Shape with smallest perimeter:\n";
 	output << (*minPerimeterShape)->ToString();
+}
+
+shared_ptr<IShape> ShapeController::CreateShape(const std::string& str) const
+{
+	stringstream shapeStream;
+	shapeStream << str;
+
+	string shapeName;
+	shapeStream >> shapeName;
+	if (shapeName == "triangle")
+	{
+		return CreateTriangle(shapeStream);
+	}
+	else if (shapeName == "rectangle")
+	{
+		return CreateRectangle(shapeStream);
+	}
+	else if (shapeName == "circle")
+	{
+		return CreateCircle(shapeStream);
+	}
+	else if (shapeName == "line")
+	{
+		return CreateLineSegment(shapeStream);
+	}
+	else
+	{
+		throw invalid_argument("Unknown figure");
+	}
 }

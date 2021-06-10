@@ -13,16 +13,17 @@
 class ShapeController
 {
 public:
-	void PushShape(std::string str);
+	void PushShape(std::shared_ptr<IShape> shape);
+	std::shared_ptr<IShape> CreateShape(const std::string& str) const;
 	void PrintShapeInfoWithLargestArea(std::ostream& output) const;
 	void PrintShapeInfoWithSmallestPerimeter(std::ostream& output) const;
 private:
 	std::vector<std::shared_ptr<IShape>> m_shapes;
 
-	std::shared_ptr<CTriangle> GetTriangle(std::stringstream& shapeStream);
-	std::shared_ptr<CRectangle> GetRectangle(std::stringstream& shapeStream);
-	std::shared_ptr<CCircle> GetCircle(std::stringstream& shapeStream);
-	std::shared_ptr<CLineSegment> GetLineSegment(std::stringstream& shapeStream);
-	uint32_t GetColor(std::string color);
+	std::shared_ptr<CTriangle> CreateTriangle(std::stringstream& shapeStream) const;
+	std::shared_ptr<CRectangle> CreateRectangle(std::stringstream& shapeStream) const;
+	std::shared_ptr<CCircle> CreateCircle(std::stringstream& shapeStream) const;
+	std::shared_ptr<CLineSegment> CreateLineSegment(std::stringstream& shapeStream) const;
+	uint32_t GetColor(const std::string& colorAsString) const;
 };
 

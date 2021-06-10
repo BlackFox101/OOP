@@ -120,7 +120,7 @@ SCENARIO(" String comparison ")
 	WHEN(" > ")
 	{
 		CMyString str1("abcd");
-		CMyString str2("adc");
+		CMyString str2("abc");
 		CHECK(str1 > str2);
 
 		str2 = "abcd";
@@ -129,7 +129,7 @@ SCENARIO(" String comparison ")
 	WHEN(" >= ")
 	{
 		CMyString str1("abcd");
-		CMyString str2("adc");
+		CMyString str2("abc");
 		CHECK(str1 >= str2);
 
 		str2 = "abcd";
@@ -138,7 +138,7 @@ SCENARIO(" String comparison ")
 	WHEN(" < ")
 	{
 		CMyString str1("abc");
-		CMyString str2("adcd");
+		CMyString str2("abcd");
 		CHECK(str1 < str2);
 
 		str2 = "abc";
@@ -147,7 +147,7 @@ SCENARIO(" String comparison ")
 	WHEN(" <= ")
 	{
 		CMyString str1("abc");
-		CMyString str2("adcd");
+		CMyString str2("abcd");
 		CHECK(str1 <= str2);
 
 		str2 = "abc";
@@ -155,9 +155,18 @@ SCENARIO(" String comparison ")
 	}
 }
 
+SCENARIO(" < ")
+{
+	CMyString str1("zubra");
+	CMyString str2("zebr");
+
+	CHECK(!(str1 < str2));
+}
+
 // тест по < не проходит при !(zubra < zebr);
 // Утечки памяти при subString, operator+=,
 // При + двойное копирование
+// Clear
 
 SCENARIO(" [] ")
 {
